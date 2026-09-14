@@ -1,0 +1,233 @@
+% !TEX program = xelatex
+% !TeX encoding = utf8
+% !TeX spellcheck = pl-PL
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wybierz rodzaj pracy dyplomowej oraz wydział
+% Pick thesis type and faculty
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[thesis=inz,faculty=ee]{EE-dyplom} 
+
+% thesis=[inz|mgr|bsc|msc]
+%  * inz - praca inżynierska
+%  * mgr - praca magisterska
+%  * bsc - bachelor thesis
+%  * msc - master thesis
+
+% Skróty nazw wydziałów zgodne z domenami internetowymi
+% Abbreviations of Faculties according to Internet subdomains
+% faculty=[
+%	arch,
+%	gik,
+%	ee,
+%	wip
+%	]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Konfiguracja - do personalizacji
+% Configuration - to be personalized
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\instytut{Instytut Elektroenergetyki}
+\kierunek{Informatyka Stosowana}
+\specjalnosc{Inżynieria Danych i Multimedia}
+\title{Aplikacja internetowa ułatwiająca zapisy na praktyki medyczne}
+\engtitle{Web application facilitating medical internships}
+\album{331672}
+\author{Damian Ciaszczyk}
+\promotor{dr inż. Patrycja Helt}
+\date{2026}
+\longdate{2026-09-14}
+
+%\grantlicense{FALSE} % [TRUE|FALSE]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Streszczenie pracy i abstract.
+% In case of thesis in English swap the order - English version goes first.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\streszczeniepracy{
+
+Zapisy na praktyki zawodowe studentów kierunków medycznych odbywają się obecnie w sposób rozproszony: placówki medyczne niezależnie publikują oferty, a studenci szukają miejsc indywidualnie, głównie drogą telefoniczną lub osobiście. Prowadzi to do redundancji zgłoszeń, nieterminowej aktualizacji dostępności miejsc oraz braku spójnego obiegu dokumentów. Problem wynika przede wszystkim z decentralizacji procesu - relatywnie niewielka liczba studentów medycyny konkuruje o ograniczoną liczbę miejsc oferowanych przez hermetyczne placówki, co utrudnia weryfikację faktycznego obłożenia ofert.
+
+Celem pracy było zaprojektowanie i zaimplementowanie aplikacji sieciowej centralizującej proces zapisów na praktyki, z podziałem na panele studenta, placówki medycznej oraz uczelni, zintegrowanej z systemem USOS API. Praca obejmowała analizę wymagań, projekt architektury oraz implementację rozwiązania.
+
+W fazie analizy przeprowadzono ankiety wśród studentów kierunków medycznych, pracowników uczelni oraz placówek medycznych, na podstawie których sformułowano wymagania funkcjonalne i niefunkcjonalne. Model systemu opracowano w Enterprise Architect z wykorzystaniem diagramów UML oraz transformacji MDA do generowania szkieletu kodu. Warstwę danych zaimplementowano w PostgreSQL z rozszerzeniem PostGIS, umożliwiającym wyszukiwanie ofert według odległości, a dokumenty przechowywane są w lokalnie hostowanym MinIO. Interfejs użytkownika zbudowano w React 19 z TypeScript, natomiast logikę biznesową - w postaci REST API w Java 21 z Spring Boot 3. Integrację z USOS API zrealizowano z użyciem protokołu OAuth 1.0a oraz mechanizmów cache i retry.
+
+Co powstało [TODO]
+
+Wnioski [TODO]
+
+} % koniec streszczenia
+
+\slowakluczowe{aplikacja CRUD, integracja USOS API, zarządzanie praktykami, zarządzanie dokumentami, rekomendacja ofert}
+
+\thesisabstract{
+
+Clinical internships for medical students are currently organised in a dispersed manner: healthcare facilities announce offers independently, while students search for placements individually, mainly by phone or in person. This results in redundant applications, outdated information on placement availability, and no consistent document workflow. The problem stems primarily from the decentralised nature of the process - a relatively small number of medical students compete for a limited number of placements offered by closed institutions, which makes it difficult to verify the actual occupancy of offers.
+
+The aim of this engineering thesis was to design and implement a web application that centralises the internship enrolment process, with separate panels for students, healthcare facilities, and the university, integrated with the USOS API. The work covered requirements analysis, architectural design, and implementation.
+
+The analysis phase included surveys conducted among medical students, university staff, and healthcare facilities, on the basis of which functional and non-functional requirements were formulated. The system model was developed in Enterprise Architect using UML diagrams and MDA transformations to generate the code skeleton. The data layer was implemented in PostgreSQL with the PostGIS extension for distance-based offer search, while documents are stored in a locally hosted MinIO instance. The user interface was built in React 19 with TypeScript, and the business logic - as a REST API in Java 21 with Spring Boot 3. Integration with the USOS API was implemented using the OAuth 1.0a protocol, supported by caching and retry mechanisms.
+
+[TODO]
+
+[TODO]
+} % end of abstract
+
+\thesiskeywords{CRUD application, document management, internship management, offer reccomendations, USOS API integration}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tu zaczyna się dokument
+% Here is the beginning of the document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    % Strony nagłówkowe
+    % Headers
+    \frontpages
+
+    % Właściwa treść jest w pliku tekst/main.tex
+    % Real contents is in tekst/main.tex
+    %\input{tekst/main}
+
+    % Rozdziały zaczynają się od "chapter"
+    \chapter{Wstęp}
+    % Praca podzielona na mniejsze pliki włączane za pomocą input
+    % Zajrzyj do pliku tekst/wstep.tex
+    %\input{tekst/wstep}
+    
+    \section{Tło i kontekst}
+    
+    Praktyki zawodowe stanowią obowiązkowy element kształcenia na kierunkach medycznych w Polsce. Zgodnie z rozporządzeniem Ministra Nauki i Szkolnictwa Wyższego z dnia 26 lipca 2019 r.\cite{ustawa} w sprawie standardów kształcenia przygotowującego do wykonywania zawodu lekarza, lekarza dentysty, farmaceuty, pielęgniarki, położnej, diagnosty laboratoryjnego, fizjoterapeuty i ratownika medycznego, studenci tych kierunków zobowiązani są do odbycia określonej liczby godzin praktyk w placówkach ochrony zdrowia. Godziny te są o wiele wyższe niż dla wielu innych kierunków studiów, jak i każdorazowo wymagają o wiele większego nadzoru i nakładu dokumentów. Praktyki te są nie tylko wymogiem formalnym, ale także kluczowym elementem nabywania kompetencji praktycznych, bez których uzyskanie prawa wykonywania zawodu nie jest możliwe.
+
+    Organizacja praktyk zawodowych odbywa się w porozumieniu między uczelnią a placówką medyczną. Uczelnia określa ramy programowe, placówka zapewnia miejsce i opiekuna, a student odpowiada za terminowe złożenie wymaganych dokumentów - karty oceny praktyk, dziennika praktyk oraz zaświadczenia o odbyciu praktyki. Proces ten, choć sformalizowany, w praktyce okazuje się niezwykle rozproszony i podatny na błędy.
+    
+    Współczesne systemy informatyczne wspierające uczelnie wyższe, takie jak Uniwersytecki System Obsługi Studiów (USOS), koncentrują się przede wszystkim na obsłudze procesu dydaktycznego - zapisów na przedmioty, ocen, dyplomów. Platformy dotyczące praktyk studenckich, jeśli istnieją, są szczątkowe i nie uwzględniają specyfiki kierunków medycznych, gdzie liczba miejsc jest ograniczona, a placówki mają własne, wewnętrzne procedury rekrutacyjne. W efekcie studenci zmuszeni są do samodzielnego poszukiwania miejsc praktyk, najczęściej drogą telefoniczną lub osobiście, co prowadzi do szeregu problemów opisanych w kolejnym podrozdziale.
+    
+    \section{Problem praktyczny}
+    
+    Obecny model zapisów na praktyki medyczne można określić jako w pełni zdecentralizowany. Placówki medyczne niezależnie od siebie ogłaszają oferty praktyk - na własnych stronach internetowych, w ogłoszeniach, poprzez kontakt z uczelnią albo przeważnie w ogóle - a studenci równie niezależnie poszukują miejsc, kontaktując się z wieloma placówkami jednocześnie. Prowadzi to do następujących problemów:
+
+    \begin{enumerate}
+        \item Redundancja zgłoszeń. Studenci kontaktują się z tymi samymi placówkami, często otrzymując sprzeczne informacje o dostępności miejsc. Placówki nie mają narzędzia do zarządzania listą rezerwową ani do weryfikacji, czy dany student rzeczywiście złożył dokumenty.
+
+        \item Brak aktualnej informacji o dostępności miejsc. Między telefonem a złożeniem dokumentów sytuacja może się zmienić - miejsce zostaje zajęte przez innego studenta, a student, który liczył na dane miejsce, traci czas na bezskuteczne starania.
+
+        \item Chaos dokumentacyjny. Karta oceny, dziennik praktyk, zaświadczenie - każdy dokument krąży między studentem, placówką i uczelnią w formie papierowej lub skanów przesyłanych e-mailem. Uczelnia nie ma spójnego systemu weryfikacji, co wydłuża proces zaliczenia praktyki.
+
+        \item Brak weryfikacji jakości placówek. Studenci nie mają rzetelnych informacji o tym, które placówki oferują wartościowe praktyki, jaki jest stosunek opiekunów do studentów, jakie są realne warunki odbywania praktyk.
+
+        \item Nierównomierne obłożenie ofert. Jedne placówki są oblegane, a inne pomijane, mimo że oferują porównywalne warunki. Wynika to z braku centralnego systemu, który pokazywałby rzeczywiste obłożenie miejsc.
+    \end{enumerate}
+
+    Problemy te wynikają przede wszystkim z decentralizacji procesu. W przypadku kierunków niemedycznych, gdzie liczba miejsc praktyk jest znacznie większa i rozproszona po całym rynku pracy, model ten się sprawdza. Jednak w przypadku kierunków medycznych, gdzie praktyki odbywają się w hermetycznym środowisku szpitali i przychodni, liczba dostępnych miejsc jest ograniczona, a konkurencja - wysoka. Sytuacja ta przypomina zapisy na zajęcia wychowania fizycznego, gdzie miejsca są ograniczone, a studenci zapisują się przez system centralny - z tą różnicą, że w przypadku praktyk medycznych organizatorem jest zewnętrzna placówka, a nie uczelnia. W tym wypadku zapisy sprawdzają się właśnie dzięki centralnemu systemowi zapisów, który sprawnie koordynuje nakierowanie nadmiarowych chętnych na wolne oferty.
+    
+    \section{Wady w istniejących rozwiązaniach}
+    
+    Na rynku istnieją systemy wspomagające zarządzanie praktykami studenckimi - zarówno komercyjne (np. Praktyki.pl, System Praktyk ZUT), jak i akademickie (moduły USOS). Ich analiza wskazuje jednak na istotne ograniczenia:
+
+    \begin{itemize}
+        \item Brak integracji z USOS API. Większość systemów nie komunikuje się z USOS, co oznacza, że dane studenta (kierunek, rok, specjalizacja, zaliczone przedmioty) muszą być wprowadzane ręcznie. To wydłuża proces i generuje błędy.
+
+        \item Brak współpracy z opiekunami praktyk. Istniejące rozwiązania najczęściej oferują widok dla chętnych, oraz publikujących ogłoszenia. Tym samym pomijają kluczową w przypadku praktyk medycznych komunikację z uczelnią.
+
+        \item Brak rekomendacji ofert. Systemy nie podpowiadają studentom ofert dopasowanych do ich specjalizacji, lokalizacji czy preferencji. Student musi samodzielnie przeszukiwać wszystkie oferty.
+
+        \item Brak weryfikowanych opinii. Opinie o placówkach, jeśli istnieją, nie są powiązane z rzeczywistym odbyciem praktyki. Nie ma mechanizmu potwierdzania, że opinia pochodzi od studenta, który faktycznie odbył praktykę w danej placówce.
+
+        \item Brak obsługi dokumentów. Systemy nie oferują przesyłania skanów dokumentów, generowania dziennika praktyk ani wzorów dokumentów potrzebnych do odbycia praktyk. Wszystkie dokumenty muszą być wypełniane na bieżąco, pomimo łatwej do zautomatyzowania ich zawartości.
+    \end{itemize}
+
+    Wady te są szczególnie widoczne w kontekście kierunków medycznych, gdzie specyfika procesu - ograniczona liczba miejsc, hermetyczność placówek, wysokie wymogi formalne sprawia, że istniejące rozwiązania są niewystarczające.
+    
+    \section{Cel i zakres pracy}
+    
+    Celem tej pracy inżynierskiej jest zaprojektowanie i zaimplementowanie aplikacji internetowej centralizującej proces zapisów na praktyki dla studentów kierunków medycznych, z podziałem na trzy panele: studenta, placówki medycznej oraz uczelni, zintegrowanej z systemem USOS API.
+
+    Zakres pracy obejmuje:
+    
+    \begin{enumerate}
+        \item Analizę wymagań - przeprowadzenie ankiet wśród studentów, pracowników uczelni i placówek medycznych, sformułowanie wymagań funkcjonalnych i niefunkcjonalnych.
+        
+        \item Projekt architektury - opracowanie modelu systemu w Enterprise Architect (diagramy klas, stanów, sekwencji), transformację MDA do generowania szkieletu kodu.
+        
+        \item Implementację - budowę backendu w Java 21 z Spring Boot 3, frontendu w React 19 z TypeScript, warstwy danych w PostgreSQL z PostGIS, integracji z USOS API przez OAuth 1.0a.
+        
+        \item Testy - weryfikację działania systemu pod kątem scenariuszy użytkowników, wydajności i bezpieczeństwa.
+    \end{enumerate}
+    
+    Poza zakresem pracy pozostają:
+    
+     \begin{itemize}
+         \item Wdrożenie produkcyjne systemu na infrastrukturze uczelni.
+         
+         \item Aplikacja mobilna.
+         
+         \item Moduł rekomendacji oparty na uczeniu maszynowym.
+     \end{itemize}
+    
+    Pytania badawcze:
+    
+        1. Czy centralizacja procesu zapisów na praktyki medyczne w jednej aplikacji sieciowej zmniejsza czas potrzebny studentom na znalezienie miejsca praktyki?
+    
+        2. W jaki sposób integracja z USOS API wpływa na kompletność i spójność danych w systemie?
+    
+        3. Czy trójpanelowa architektura (student-placówka-uczelnia) jest adekwatna do potrzeb wszystkich interesariuszy?
+    
+    \section{Struktura pracy}
+    \label{sec:struktura}
+    
+    Praca składa się z rozdziałów. Ilu? Nie wiem. Planuję te:
+
+     \begin{itemize}
+         \item Rozdział 1 (niniejszy) - wprowadzenie w temat, opis problemu, cel i zakres pracy.
+         
+         \item Rozdział 2 - analiza wymagań: metodyka badań ankietowych, wyniki, wnioski, specyfikacja wymagań.
+         
+         \item Rozdział 3 - projekt systemu: architektura rozwiązania, diagramy UML, model bazy danych, projekt API.
+         
+         \item Rozdział 4 - implementacja: opis zastosowanych rozwiązań, kluczowych modułów, integracji z USOS.
+         
+         \item Rozdział 5 - testy: scenariusze testowe, wyniki, wnioski z testów.
+         
+         \item Rozdział 6 - podsumowanie: osiągnięte cele, ograniczenia, napotkane problemy.
+     \end{itemize}
+
+    %koniec wstepu
+    
+    % Można też wszystko pisać w jednym pliku ale będzie on duży
+    \chapter{analiza wymagań}
+    
+    % fragment nieużywany albo jeszcze niedodany można zakomentować
+    %\input{tekst/teoria}
+    %\input{tekst/donapisania}
+    
+    \chapter{projekt systemu}
+    %\input{tekst/praktyka}
+
+    \chapter{implementacja}
+
+    \chapter{testy}
+    
+    \chapter{Podsumowanie}
+    %\input{tekst/podsumowanie}
+
+    %koniec main
+
+    % Bibliografia - musi być
+    % Bibliography - must exist
+    \bibliografia
+    
+
+    % Strony końcowe - można zakomentować, jeśli zbędne
+    % Additional pages - comment out if not needed
+    
+    % Wykaz symboli i skrótów - patrz opis w tekście przykładowym
+    %\acronymslist
+    % Spis rysunków
+    %\listoffigures
+    % Spis tabel
+    %\listoftables
+    % Załączniki (plik appendices.tex)
+    %\easyappendices
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
