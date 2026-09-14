@@ -36,26 +36,6 @@ services:
     networks:
       - medapp-network
 
-  # Broker wiadomości (asynchroniczne powiadomienia, retry USOS)
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: medapp-rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: medapp_user
-      RABBITMQ_DEFAULT_PASS: medapp_pass
-    ports:
-      - "5672:5672"   # AMQP
-      - "15672:15672" # Panel zarządzania
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-    networks:
-      - medapp-network
-
   # Przechowywanie dokumentów
   minio:
     image: minio/minio:RELEASE.2025-04-22T22-12-26Z
@@ -88,8 +68,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
       minio:
         condition: service_healthy
     environment:
@@ -101,11 +79,6 @@ services:
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
       SPRING_REDIS_PASSWORD: medapp_redis_pass
-      # RabbitMQ
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: medapp_user
-      SPRING_RABBITMQ_PASSWORD: medapp_pass
       # MinIO
       MINIO_URL: http://minio:9000
       MINIO_ACCESS_KEY: medapp_minio
@@ -125,7 +98,6 @@ services:
 volumes:
   postgres_data:
   redis_data:
-  rabbitmq_data:
   minio_data:
 
 # Sieć wewnętrzna
