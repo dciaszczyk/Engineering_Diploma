@@ -8,7 +8,7 @@ const char *password = "Tciaszczyk1980";
 
 const String HOST_NAME   = "http://172.16.102.243:8000"; 
 const String PATH_NAME1   = "/1";  
-const String PATH_NAME1   = "/2";      
+const String PATH_NAME2   = "/2";      
 
 
 void setup() {
@@ -58,11 +58,11 @@ void setup() {
     }
   }
 
-  HTTPClient http;
-
 }
 
 void loop() {
+
+  HTTPClient http;
 
   http.begin(HOST_NAME + PATH_NAME1); //HTTP
   int httpCode = http.GET();
@@ -87,7 +87,7 @@ void loop() {
   delay(1000);
 
   http.begin(HOST_NAME + PATH_NAME2); //HTTP
-  int httpCode = http.GET();
+  httpCode = http.GET();
 
   // httpCode will be negative on error
   if(httpCode > 0) {
