@@ -3,7 +3,7 @@ services:
     build:
       context: ..
       dockerfile: compose/Dockerfile
-    command: uvicorn server:app --host 0.0.0.0 --port 8001
+    command: uvicorn serwer:app --host 0.0.0.0 --port 8001
     environment:
       PORT: "8001"
     ports:
@@ -13,7 +13,7 @@ services:
     build:
       context: ..
       dockerfile: compose/Dockerfile
-    command: uvicorn server:app --host 0.0.0.0 --port 8002
+    command: uvicorn serwer:app --host 0.0.0.0 --port 8002
     environment:
       PORT: "8002"
     ports:
@@ -23,7 +23,7 @@ services:
     build:
       context: ..
       dockerfile: compose/Dockerfile
-    command: uvicorn server:app --host 0.0.0.0 --port 8003
+    command: uvicorn serwer:app --host 0.0.0.0 --port 8003
     environment:
       PORT: "8003"
     ports:
