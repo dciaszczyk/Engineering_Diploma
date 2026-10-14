@@ -15,7 +15,7 @@ const char* ssid = "iprivate-4";
 const char* password = "Tciaszczyk1980";
 
 // adres na razie udający relay
-const char* relayURL = "http://172.16.102.243:8001";
+const char* relayURL = "http://172.16.102.243:8001/relay";
 
 const uint32_t RELAY_HOST_IP = 0xAC1066F3; // 172.16.102.243
 
@@ -23,8 +23,8 @@ const uint16_t RELAY2_PORT = 8002;
 const uint16_t RELAY3_PORT = 8003;
 
 // adres wewnętrznej wiadomości
-const uint32_t TARGET_IP = 0x7F000001; // 127.0.0.1
-const uint16_t TARGET_PORT = 8000;
+const uint32_t TARGET_IP = 0xAC1066F3; 
+const uint16_t TARGET_PORT = 9000;
 
 // zamiana struct na bajty ( i z powrotem)
 size_t serializeMessage(const message* msg, uint8_t* out) 

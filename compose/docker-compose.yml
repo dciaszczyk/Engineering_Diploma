@@ -1,13 +1,40 @@
 services:
   relay1:
-    build: .
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    command: uvicorn server:app --host 0.0.0.0 --port 8001
+    environment:
+      PORT: "8001"
     ports:
-      - "8001:5001"
+      - "8001:8001"
+
   relay2:
-    build: .
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    command: uvicorn server:app --host 0.0.0.0 --port 8002
+    environment:
+      PORT: "8002"
     ports:
-      - "8002:5002"
+      - "8002:8002"
+
   relay3:
-    build: .
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    command: uvicorn server:app --host 0.0.0.0 --port 8003
+    environment:
+      PORT: "8003"
     ports:
-      - "8003:5003"
+      - "8003:8003"
+
+  final:
+    build:
+      context: ..
+      dockerfile: compose/Dockerfile
+    command: uvicorn final_dest:app --host 0.0.0.0 --port 9000
+    environment:
+      PORT: "9000"
+    ports:
+      - "9000:9000"
