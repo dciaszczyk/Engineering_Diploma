@@ -1,0 +1,15 @@
+\thispagestyle {empty}
+\xpg@aux {}{polish}
+\contentsline {chapter}{\numberline {1}Wstęp}{9}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Struktura pracy}{10}{section.1.1}%
+\contentsline {chapter}{\numberline {2}analiza wymagań}{13}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Charakterystyka trasowania cebulowego w kontekście mikrokontrolerów}{13}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Wymagania funkcjonalne}{14}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Wymagania niefunkcjonalne}{14}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Metody spełnienia założeń trasowania cebulowego na ESP32}{15}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Podsumowanie analizy wymagań}{16}{section.2.5}%
+\contentsline {chapter}{\numberline {3}prototypy teorytyczne}{17}{chapter.3}%
+\contentsline {chapter}{\numberline {4}projekt rozwiązania}{19}{chapter.4}%
+\contentsline {chapter}{\numberline {5}implementacja}{21}{chapter.5}%
+\contentsline {chapter}{\numberline {6}testy}{23}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Podsumowanie}{25}{chapter.7}%
