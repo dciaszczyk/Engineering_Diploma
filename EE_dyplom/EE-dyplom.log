@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.10.25)  29 OCT 2026 01:24
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.10.25)  4 NOV 2026 21:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1366,6 +1366,13 @@ Package: enumitem 2025/02/06 v3.11 Customized lists
 )
 \docparskip=\skip115
 \c@easyappendix=\count558
+) (c:/texlive/2026/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count559
+\float@exts=\toks61
+\float@box=\box131
+\@float@everytoks=\toks62
+\@floatcapt=\box132
 )
 
 Package fontspec Info: 
@@ -1389,26 +1396,26 @@ Package fontspec Info:
  (./EE-dyplom.aux)
 \openout1 = `EE-dyplom.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1463,7 +1470,7 @@ Package biblatex Info: ... file 'latin.lbx' not found.
 
 
 Package biblatex Warning: Language 'latin' not supported.
-(biblatex)                Using dummy definitions on input line 81.
+(biblatex)                Using dummy definitions on input line 83.
 
 Package biblatex Info: Trying to load language 'polish'...
 Package biblatex Info: ... file 'polish.lbx' found.
@@ -1477,21 +1484,21 @@ Package biblatex Info: Automatic encoding selection.
 \openout7 = `EE-dyplom.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'EE-dyplom.bbl' not found.
-
-No file EE-dyplom.bbl.
-Package biblatex Info: Reference section=0 on input line 81.
-Package biblatex Info: Reference segment=0 on input line 81.
+Package biblatex Info: ... file 'EE-dyplom.bbl' found.
+ (./EE-dyplom.bbl)
+Package biblatex Info: Reference section=0 on input line 83.
+Package biblatex Info: Reference segment=0 on input line 83.
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 81.
-(./EE-dyplom.out) (./EE-dyplom.out)
+Package hyperref Info: Link coloring ON on input line 83.
+ (./EE-dyplom.out) (./EE-dyplom.out)
 \@outlinefile=\write9
 \openout9 = `EE-dyplom.out'.
 
-\c@lstlisting=\count559
+\c@lstlisting=\count560
 File: gfx/HeadeePL.png Graphic file (type bmp)
 <gfx/HeadeePL.png>
 File: gfx/inzhead.png Graphic file (type bmp)
@@ -1544,6 +1551,8 @@ LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/it' will be
 
 ]
 Rozdział 1.
+File: rysunki/trasowanie.png Graphic file (type bmp)
+<rysunki/trasowanie.png>
 [9
 
 ] [10] [11] [12
@@ -1573,15 +1582,28 @@ Rozdział 7.
 [25] [26
 
 ]
+Underfull \hbox (badness 1275) in paragraph at lines 314--314
+[]\TU/LatinModernSans(1)/m/n/10.95 Bianes, G., „  How many devices are connected to the IoT?”, \TU/LatinModernSans(1)/m/it/10.95 SOAX\TU/LatinModernSans(1)/m/n/10.95 , sierpień 2025,
+ []
 
-LaTeX Warning: Empty bibliography on input line 300.
+
+Underfull \hbox (badness 10000) in paragraph at lines 314--314
+[]\TU/LatinModernSans(1)/m/n/10.95 Cisco, \TU/LatinModernSans(1)/m/it/10.95 Cisco Visual Networking Index: Forecast and Trends, 2017–2022\TU/LatinModernSans(1)/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 314--314
+[]\TU/LatinModernSans(1)/m/it/10.95 CVE-- 2024-- 32384: Kerlink Gateway Information Disclosure\TU/LatinModernSans(1)/m/n/10.95 ,
+ []
 
 
 Package glossaries Warning: No \printglossary or \printglossaries found. 
 (Remove \makeglossaries if you don't want any glossaries.) 
 This document will not have a glossary.
 
-(./EE-dyplom.aux)
+[27
+
+] (./EE-dyplom.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-09-09>
@@ -1590,27 +1612,19 @@ L3 programming layer <2026-09-09>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were undefined references.
-
 Package rerunfilecheck Info: File `EE-dyplom.out' has not changed.
-(rerunfilecheck)             Checksum: B2DBF924BA79676D98547ECD8ED56270;2231.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                EE-dyplom
-(biblatex)                and rerun LaTeX afterwards.
-
+(rerunfilecheck)             Checksum: 1AFF68013030601EFEC285AD4DD7B091;2336.
 Package logreq Info: Writing requests to 'EE-dyplom.run.xml'.
 \openout1 = `EE-dyplom.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 47041 strings out of 467695
- 973507 string characters out of 5423998
- 2155129 words of memory out of 5000000
- 75492 multiletter control sequences out of 15000+600000
- 634569 words of font info for 121 fonts, out of 8000000 for 9000
+ 47381 strings out of 467695
+ 981540 string characters out of 5423998
+ 2156396 words of memory out of 5000000
+ 75821 multiletter control sequences out of 15000+600000
+ 634593 words of font info for 124 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 122i,12n,131p,2562b,4129s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 122i,12n,131p,2562b,5550s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on EE-dyplom.pdf (26 pages).
+Output written on EE-dyplom.pdf (27 pages).

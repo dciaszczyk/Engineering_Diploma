@@ -8,6 +8,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[thesis=inz,faculty=ee]{EE-dyplom} 
 
+\usepackage{float}
+
 % thesis=[inz|mgr|bsc|msc]
 %  * inz - praca inżynierska
 %  * mgr - praca magisterska
@@ -92,22 +94,33 @@ Wnioski [TODO]
     % Praca podzielona na mniejsze pliki włączane za pomocą input
     % Zajrzyj do pliku tekst/wstep.tex
     %\input{tekst/wstep}
-    Urządzenia Internetu Rzeczy (IoT) z roku na rok produkują oraz przesyłają coraz więcej danych. Wynika to z coraz powszechniejszego wykorzystania ich do zbierania statystyk 
-    oraz regulowania działania wszelkich struktur oraz mechanizmów. Ze względu na ograniczone zasoby sprzętowe urządzeń IoT, ich funkcje również są projektowane jak najprościej, 
-    w tym warstwa komunikacyjna. Przeważnie stosują standardowe protokoły komunikacyjne, wykorzystanie których w większości sytuacji jest adekwatnym rozwiązaniem. 
+    Urządzenia Internetu Rzeczy (IoT) z roku na rok produkują oraz przesyłają coraz więcej danych\cite{prezentacja_cisco}. Wynika to z coraz powszechniejszego 
+    wykorzystania ich do zbierania statystyk oraz regulowania działania wszelkich struktur oraz mechanizmów\cite{soax_iot_count}. Ze względu na ograniczone 
+    zasoby sprzętowe urządzeń IoT, ich funkcje również są projektowane jak najprościej, 
+    w tym warstwa komunikacyjna, często nie poświęcając jej należytej uwagi\cite{vuln_disclosure}. 
+    Przeważnie stosują standardowe protokoły komunikacyjne, wykorzystanie których w większości sytuacji jest adekwatnym rozwiązaniem\cite{Survey_WOT}. 
     Jednak w przypadku urządzeń wbudowanych przesyłających szczególnie wrażliwe dane, poza standardowym szyfrowaniem przesyłanej wiadomości oferowanego na przykład przez TLS 
     (ang. Transport Layer Security), pożądane może też być ukrycie z kim odbywa się sama komunikacja. Takie rozwiązanie zapewnia technika trasowania cebulowego 
-    (ang. Onion routing), z najbardziej znaną implementacją realizowaną przez protokoły sieci nakładkowej Tor. Sama technika trasowania 
+    (ang. Onion routing), z najbardziej znaną implementacją realizowaną przez protokoły sieci nakładkowej Tor\cite{tor_onion,ieee_dw_survey}. Sama technika trasowania 
     cebulowego wzięła nazwę ze względu na szyfrowanie przesyłanej wiadomości kilkukrotnie, w warstwach nałożonych jedna na drugą, co przypomina swoją budową cebulę. Aby 
     przesłać wiadomość tą techniką nadawca najpierw wybiera kilka przekaźników (ang. relays) tworząc z nich obwód (ang. circuit) przez który wiadomość zostanie 
     przesłana. Następnie wiadomość jest szyfrowana tak, aby każdy kolejny przekaźnik mógł odszyfrować po jednej warstwie z danej wiadomości aż do przesłania odszyfrowanych 
     danych przez ostatni przekaźnik do odbiorcy. W ten sposób tylko nadawca zna całą trasę wiadomości, natomiast przekaźniki znają co najwyżej odbiorcę albo nadawcę, nigdy 
-    obu na raz. Sam odbiorca również widzi wiadomość tak jakby została nadana przez ostatni przekaźnik, nie nadawcę. Dla wiadomości zwrotnej można odwrócić kolejność, gdzie 
+    obu na raz. Sam odbiorca również widzi wiadomość tak jakby została nadana przez ostatni przekaźnik, nie nadawcę. 
+    \begin{figure}[H]
+	    \centering \includegraphics[width=16cm]{rysunki/trasowanie.png} 
+	    \caption{Schemat komunikacji techniką trasowania cebulowego, opracowany na podstawie artykułu\cite{tor_onion}, z linią ukośną oraz kolejnymi liniami 
+        równoległymi symbolizującymi warstwy szyfrowania}
+	    \label{rys:trasowanie}
+    \end{figure}
+
+    Dla wiadomości zwrotnej można odwrócić kolejność, gdzie 
     z kolei przekaźniki szyfrują warstwa po warstwie całą wiadomość, tak aby tylko oryginalny nadawca mógł odszyfrować całą odpowiedź. Implementacja techniki trasowania
-    cebulowego na urządzeniach o ograniczonych zasobach, takich jak mikrokontrolery, nie jest standardem. Implementacje tej techniki na urządzeniach wbudowanych są rzadkie, 
+    cebulowego na urządzeniach o ograniczonych zasobach, takich jak mikrokontrolery, nie jest standardem\cite{iot_tor_usage}. Implementacje tej techniki na urządzeniach 
+    wbudowanych są rzadkie, 
     oraz nieutrzymywane. Wynika to z niewielkiego obszaru gdzie poświęcenie zasobów mikrokontrolera w tym celu ma sens, obszaru jednak istniejącego. Mikrokontrolery z rodziny 
     ESP32 stanowią idealny punkt startowy do wprowadzenia takiej implementacji dzięki ich wbudowanemu modułowi Wi-Fi oraz sprzsętowych akceleratorów algorytmów AES, SHA, RSA
-    oraz ECC. Wykorzystanie urządzeń z rodziny ESP32 z trasowaniem cebulowym nie jest jednak dokładnie przebadane ani udokumentowane, a obciążenie które ta technika wprowadza
+    oraz ECC\cite{esp32_datasheet}. Wykorzystanie urządzeń z rodziny ESP32 z trasowaniem cebulowym nie jest jednak dokładnie przebadane ani udokumentowane, a obciążenie które ta technika wprowadza
     nie zostało zmierzone. 
     
     Celem pracy jest zaprojektowanie, implementacja oraz analiza obciążenia techniki trasowania cebulowego z wykorzystaniem mikrokontrolera ESP32 jako klienta oraz lekkiego 
@@ -127,7 +140,7 @@ Wnioski [TODO]
     Część praktyczna została zrealizowana z wykorzystaniem płytek deweloperskich bazujących na ESP32-S3-WROOM-1 oraz środowiska Arduino IDE. Kryptografia realizowana jest
     za pomocą sprzętowych akceleratorów ESP32 oraz bibliotek dostosowanych do systemów wbudowanych (mbedtls/aes.h na przykład, do rozwinięcia, opcja wyłączonego ADC?). 
     Zaimplementowane rozwiązanie zostało porównane z różnymi konfiguracjami bardziej standardowych rozwiązań (biblioteka httpclient.h zapewnia http i https, alternatywnie można
-    porównać z implementacją tls, ale https to samo używa).
+    porównać z implementacją tls, ale https to samo używa, MQTT i CoAP to lepsze rozwiązania pod embedded).
     
     \section{Struktura pracy}
     \label{sec:struktura}
@@ -150,7 +163,7 @@ Wnioski [TODO]
          \item Rozdział 6 - testy: porównanie wydajnościowe z innymi metodami przesyłu pakietów, testy bezpieczeństwa kryptograficznego przesyłanych danych, analiza sensownych zastosowań
          rozwiązania.
          
-         \item Rozdział 7 - podsumowanie: osiągnięte cele, ograniczenia, napotkane problemy.
+         \item Rozdział 7 - podsumowanie: osiągnięte cele, ograniczenia, napotkane problemy, możliwości rozwoju.
      \end{itemize}
 
     %koniec wstepu
@@ -164,15 +177,16 @@ Wnioski [TODO]
 
     Rozdział ten ma na celu określenie konkretnych wymagań których realizacja spełnia ogólne założenia wynikające z tematu pracy. W tym celu poza określeniem wymagań 
     realizujących założenia trasowania cebulowego, należy także uwzględnić ograniczenia związane z implementacją na mikrokontrolerach. Za dobry punkt odniesienia służy
-    dokumentacja protokołów sieci nakładkowej Tor, która także implementuje tą technikę, aczkolwiek w formie wielokrotnie przekraczającej możlwości urządzenia takiego jak
-    ESP32. 
+    dokumentacja protokołów sieci nakładkowej Tor\cite{tor_spec}, która także implementuje tą technikę, aczkolwiek w formie wielokrotnie przekraczającej możlwości urządzenia takiego jak
+    ESP32\cite{relay_requirement}. 
 
     \section{Charakterystyka trasowania cebulowego w kontekście mikrokontrolerów}
 
     Trasowanie cebulowe w swojej klasycznej postaci, znanej z sieci Tor, zakłada istnienie przekaźników wielokrotnie bogatszych w zasoby niż prosty mikrokontroler, 
     zdolnych do utrzymywania wielu równoczesnych obwodów i buforowania pakietów. Mikrokontrolery działają na o wiele bardziej ograniczonych zasobach: w przypadku 
     wykorzystywanej płytki deweloperskiej 512 kB SRAM, 8 MB PSRAM oraz 16 MB pamięci Flash, a jej moc obliczeniowa jest wiele rzędów wielkości mniejsza niż w przypadku 
-    serwerów pełniących rolę przekaźników Tor. Uruchomienie na ESP32 pełnego demona Tor nie jest możliwe, ponieważ sam demon wymaga kilkaset razy więcej megabajtów 
+    serwerów pełniących rolę przekaźników Tor, wymagających co najmniej 200 MB pojemności dyskowej, obsługę 7000 jednoczesnych połączeń oraz co najmniej 512 MB RAM. 
+    Uruchomienie na ESP32 pełnego demona Tor nie jest możliwe, ponieważ sam demon wymaga kilkaset razy więcej megabajtów 
     pamięci operacyjnej niż mikrokontroler oferuje.
 
     Oznacza to, że analiza wymagań nie może opierać się na samym skopiowianiu architektury Tor. Konieczne jest zidentyfikowanie minimalnego zestawu funkcji trasowania 

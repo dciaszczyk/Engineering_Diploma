@@ -1,0 +1,14 @@
+[0] Config.pm:329> INFO - This is Biber 2.22
+[0] Config.pm:332> INFO - Logfile is 'EE-dyplom.blg'
+[101] biber-MSWIN64:342> INFO - === 
+[135] Biber.pm:421> INFO - Reading 'EE-dyplom.bcf'
+[251] Biber.pm:1002> INFO - Found 10 citekeys in bib section 0
+[265] Biber.pm:4487> INFO - Processing section 0
+[276] Biber.pm:4680> INFO - Looking for bibtex file 'EE-dyplom.bib' for section 0
+[331] bibtex.pm:1713> INFO - LaTeX decoding ...
+[363] bibtex.pm:1519> INFO - Found BibTeX data source 'EE-dyplom.bib'
+[434] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[434] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'variable = shifted' with 'variable = non-ignorable'
+[434] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'pl-PL'
+[446] bbl.pm:676> INFO - Writing 'EE-dyplom.bbl' with encoding 'UTF-8'
+[451] bbl.pm:779> INFO - Output to EE-dyplom.bbl

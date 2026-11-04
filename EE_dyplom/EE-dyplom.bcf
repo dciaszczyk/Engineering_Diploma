@@ -2377,6 +2377,18 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">EE-dyplom.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="1" intorder="1">prezentacja_cisco</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">soax_iot_count</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">vuln_disclosure</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">Survey_WOT</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">tor_onion</bcf:citekey>
+    <bcf:citekey order="5" intorder="2">ieee_dw_survey</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">tor_onion</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">tor_onion</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">iot_tor_usage</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">esp32_datasheet</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">tor_spec</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">relay_requirement</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
