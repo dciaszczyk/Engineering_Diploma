@@ -2389,6 +2389,8 @@
     <bcf:citekey order="9" intorder="1">esp32_datasheet</bcf:citekey>
     <bcf:citekey order="10" intorder="1">tor_spec</bcf:citekey>
     <bcf:citekey order="11" intorder="1">relay_requirement</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">http_insecure</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">http_insecure</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

@@ -9,6 +9,7 @@
 \documentclass[thesis=inz,faculty=ee]{EE-dyplom} 
 
 \usepackage{float}
+\usepackage{booktabs}
 
 % thesis=[inz|mgr|bsc|msc]
 %  * inz - praca inżynierska
@@ -296,7 +297,115 @@ Wnioski [TODO]
     zostanie konkretna architektura sieci testowej, API modułu trasowania i przekaźnika oraz metody realizacji trasowania cebulowego w pełnym zakresie.
 
     \chapter{prototypy teorytyczne}
-    %\input{tekst/praktyka}
+    
+    Rozwiązanie przedstawionego problemu powstawało iteracyjnie, na podstawie kolejnych prototypów rozwijających możliwości poprzedniego aż do uzyskania komunikacji
+    poprawnie wykorzystującej technikę trasowania cebulowego. 
+
+    \section{Prototyp komunikacji z wykorzystaniem HTTP}
+
+    Pierwszy z prototypów testował samą komunikację z wykorzystaniem modułu Wi-Fi (za pomocą biblioteki WiFi.h) oraz biblioteki HTTPClient.h pozwalającej 
+    mikrokontrolerom z rodziny ESP32 wykonywać zapytania z wykorzystaniem protokołu HTTP. Ten protokół jest wykorzystywany przez ponad połowę urządzeń IoT 
+    do przesyłania informacji, pomimo jego wrażliwości na ataki Man-In-The-Middle. Ta wrażliwość sprawia, że dowolny uczestnik w przesyłaniu pakietów (na przykład 
+    poszczególne przeskoki widoczne komendą tracert na systemach windows albo traceroute na systemach linux) może przeczytać oraz co ważniejsze zmodyfikować
+    przesyłane informacje. Sprawia to że dane przesyłane protokołem HTTP nie są godne zaufania.
+
+    \begin{figure}[H]
+	    \centering \includegraphics[width=16cm]{rysunki/tracert.png} 
+	    \caption{przykładowa lista przeskoków pomiędzy moją siecią domową a adresem dns google}
+	    \label{rys:tracert}
+    \end{figure}
+
+    Warto najpierw zapoznać się ze schematem komunikacji po HTTP, porównawczo z wcześniejszym schematem trasowania cebulowego\ref{rys:trasowanie}.
+
+    \begin{figure}[H]
+	    \centering \includegraphics[width=16cm]{rysunki/http_schema.png} 
+	    \caption{Uproszczony schemat komunikacji po HTTP, opracowany na podstawie\cite{http_insecure}}
+	    \label{rys:http-schema}
+    \end{figure}
+
+    Jak widać, ten protokół pozwala każdemu zobaczyć obu uczestników końcowych komunikacji, jak i treść samej wiadomości.
+
+    Pełna implementacja tego prototypu znajduje się w sketchu Arduino o nazwie sketch\_wifi. Pakiety przechwycone po uruchomieniu prototypu (symulując skompromitowany przeskok
+    a w przyszłości i przekaźnik) prezentują się następująco:
+
+    \begin{figure}[H]
+	    \centering \includegraphics[width=16cm]{rysunki/direct_http.png} 
+	    \caption{Ciąg bajtów przesłany z prostej aplikacji FastAPI w odpowiedzi na zapytanie GET z mikrokontrolera, z wiadomością czytelną dla każdego}
+	    \label{rys:direct_http}
+    \end{figure}
+
+    dodatkowo, adresy IP obu końcowych uczestników komunikacji są także widoczne dla każdego w poniższej tabeli zawierającej fragment pakietów z wireshark:
+
+    \begin{table}[htbp]
+    \centering
+    \caption{Przechwycone pakiety – żądanie i odpowiedź HTTP (GET /1)}
+    \label{tab:pcap-http}
+    \small
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{@{} r r l l l r p{6.2cm} @{}}
+    \toprule
+    \textbf{No.} & \textbf{Time [s]} & \textbf{Source} & \textbf{Destination} & \textbf{Proto.} & \textbf{Len} & \textbf{Info} \\
+    \midrule
+    53 & 25.770868100 & 172.16.102.230 & 172.16.102.243 & HTTP & 204 & \texttt{GET /1 HTTP/1.1} \\
+    54 & 25.771800500 & 172.16.102.243 & 172.16.102.230 & TCP  & 179 & \texttt{8000 > 61924 [PSH, ACK] Seq=1 Ack=151 Win=64470 Len=125 [TCP PDU reassembled in 56]} \\
+    55 & 26.008792100 & 172.16.102.230 & 172.16.102.243 & TCP  & 60  & \texttt{61924 > 8000 [ACK] Seq=151 Ack=126 Win=5635 Len=0} \\
+    56 & 26.008809300 & 172.16.102.243 & 172.16.102.230 & HTTP/JSON & 94 & \texttt{HTTP/1.1 200 OK, JSON (application/json)} \\
+    57 & 26.258533100 & 172.16.102.230 & 172.16.102.243 & TCP  & 60  & \texttt{61924 > 8000 [ACK] Seq=151 Ack=166 Win=5595 Len=0} \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+    Te pakiety są zgodne z poprzednim schematem komunikacji z wykorzystaniem HTTP\ref{rys:http-schema}. 
+
+    \section{Prototyp przesyłania wiadomości z wykorzystaniem przekaźników}
+
+    Następny prototyp, zaimplementowany w sketchu sketch\_prosta\_wiadomosc wykorzystuje przekaźniki zasymulowane z wykorzystaniem kontenerów docker do przesłania dalej
+    nieszyfrowanej wiadomości. Od przeskoków odróżniają się tym, że każdy przekaźnik nadaje wiadomość ponownie jakby szła od niego, nie oryginalnego nadawcy, chroniąc
+    jego adres w przypadku gdyby co najmniej jeden przekaźnik nie był skompromitowany.
+
+    \begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=.99\linewidth]{rysunki/unencrypted_dump1.png} 
+    \caption{Bajty z przedostatniego przekaźnika}
+    \label{rys:uncdump1}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=.99\linewidth]{rysunki/unencrypted_dump2.png}
+    \caption{Rysunek rastrowy}
+    \label{rys:uncdump2}
+    \end{subfigure}
+    \caption{Bajty z ostatniego przekaźnika, krótsze o jeden nagłówek}
+    \label{rys:uncdump}
+    \end{figure}
+
+    Jak widać na podstawie długości pakietów, każdy kolejny przekaźnik obiera wiadomość z jednego nagłówka, i nadaje wiadomość do kolejnego uczestnika w ciągu. Dzięki
+    temu informacja o poprzednich uczestnikach komunikacji nie jest przekazywana dalej.
+
+    \section{Prototyp przesyłania wiadomości z wykorzystaniem warstwowego szyfrowania}
+
+    Ten prototyp, zaimplementowany w sketchu sketch\_szyfrowana\_wiad do poprzedniego dodał szyfrowanie poszczególnych wiadomości kluczami AES, dodatkowo chroniąc 
+    zawartość wiadomości wszędzie oprócz ostatniego przekaźnika, z którego wiadomość dalej wychodzi odszyfrowana. 
+
+    \begin{figure}
+    \centering
+    \begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=.99\linewidth]{rysunki/relay2_cipher.png} 
+    \caption{Bajty które otrzymał ostatni przekaźnik, w zaszyfrowanej postaci}
+    \label{rys:bytesrel1}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+    \centering
+    \includegraphics[width=.99\linewidth]{rysunki/final_cipher.png}
+    \caption{Rysunek rastrowy}
+    \label{rys:bytesrel2}
+    \end{subfigure}
+    \caption{Bajty które otrzymał odbiorca}
+    \label{rys:bytesrel}
+    \end{figure}
 
     \chapter{projekt rozwiązania}
 

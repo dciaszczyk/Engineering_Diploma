@@ -67,6 +67,27 @@
       \field{title}{Cisco Visual Networking Index: Forecast and Trends, 2017–2022}
       \field{year}{2019}
     \endentry
+    \entry{http_insecure}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f07179a07b2a7661e37a3fd0e652a07}{%
+           family={Cloudflare},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{fullhash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{fullhashraw}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{bibnamehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authorbibnamehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authornamehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authorfullhash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authorfullhashraw}{3f07179a07b2a7661e37a3fd0e652a07}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/}{<https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/>}}
+      \field{title}{HTTP vs. HTTPS: What are the differences?}
+    \endentry
     \entry{vuln_disclosure}{misc}{}{}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
