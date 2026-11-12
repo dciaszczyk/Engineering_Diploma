@@ -1,0 +1,37 @@
+x-relay: &relay
+  build:
+    context: ..
+    dockerfile: compose/Dockerfile
+  image: onion-proto:latest
+  network_mode: host
+  restart: unless-stopped
+
+services:
+  relay1:
+    <<: *relay
+    command: python serwer.py
+    environment: { PORT: "8001" }
+
+  relay2:
+    <<: *relay
+    command: python serwer.py
+    environment: { PORT: "8002" }
+
+  relay3:
+    <<: *relay
+    command: python serwer.py
+    environment: { PORT: "8003" }
+
+  dest:
+    <<: *relay
+    command: python final_dest.py
+    environment: { PORT: "9000" }
+
+  client:
+    <<: *relay
+    profiles: ["client"]
+    command: python client.py
+    environment:
+      RELAYS:  "${RELAYS:-127.0.0.1:8001,127.0.0.1:8002,127.0.0.1:8003}"
+      DEST:    "${DEST:-127.0.0.1:9000}"
+      MESSAGE: "${MESSAGE:-hello world}"

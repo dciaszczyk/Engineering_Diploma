@@ -2387,10 +2387,14 @@
     <bcf:citekey order="7" intorder="1">tor_onion</bcf:citekey>
     <bcf:citekey order="8" intorder="1">iot_tor_usage</bcf:citekey>
     <bcf:citekey order="9" intorder="1">esp32_datasheet</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">tor_spec</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">relay_requirement</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">http_insecure</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">http_insecure</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">s3_wroom_datasheet</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">ide_docs</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">aes_lib</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">tor_spec</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">relay_requirement</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">relay_requirement</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">http_insecure</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">http_insecure</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

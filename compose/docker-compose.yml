@@ -1,39 +1,38 @@
+x-common: &common
+  build:
+    context: ..
+    dockerfile: compose/Dockerfile
+  image: onion-proto:latest
+  restart: unless-stopped
+
 services:
   relay1:
-    build:
-      context: ..
-      dockerfile: compose/Dockerfile
-    command: uvicorn serwer:app --host 0.0.0.0 --port 8001
+    <<: *common
+    command: python serwer.py
     environment:
       PORT: "8001"
     ports:
       - "8001:8001"
 
   relay2:
-    build:
-      context: ..
-      dockerfile: compose/Dockerfile
-    command: uvicorn serwer:app --host 0.0.0.0 --port 8002
+    <<: *common
+    command: python serwer.py
     environment:
       PORT: "8002"
     ports:
       - "8002:8002"
 
   relay3:
-    build:
-      context: ..
-      dockerfile: compose/Dockerfile
-    command: uvicorn serwer:app --host 0.0.0.0 --port 8003
+    <<: *common
+    command: python serwer.py
     environment:
       PORT: "8003"
     ports:
       - "8003:8003"
 
   final:
-    build:
-      context: ..
-      dockerfile: compose/Dockerfile
-    command: uvicorn final_dest:app --host 0.0.0.0 --port 9000
+    <<: *common
+    command: python final_dest.py
     environment:
       PORT: "9000"
     ports:

@@ -201,14 +201,20 @@ month = aug
 
 @manual{esp32_datasheet,
     title           = {ESP32 Series Datasheet Version 5.3},
-    organization    = {ESPRESSIF}
+    organization    = {ESPRESSIF Systems}
+}
+
+@manual{s3_wroom_datasheet,
+    title           = {ESP32-S3-WROOM-1 ESP32-S3-WROOM-1U Datasheet Version 1.8},
+    organization    = {ESPRESSIF Systems},
+    note = {\href{https://documentation.espressif.com/esp32-s3-wroom-1_wroom-1u_datasheet_en.html}{<https://documentation.espressif.com/esp32-s3-wroom-1\_wroom-1u\_datasheet\_en.html>}}
 }
 
 @manual{tor_spec,
     title = {Tor Specifications},
-    organization = {Tor Project},
-    howpublished ={\href{https://spec.torproject.org/}{<https://spec.torproject.org/>}}
-
+    organization = {The Tor Project},
+    edition = {commit SHA = 5ae6ee90c2753efb90d277aaa28bca59aaba0250},
+    note ={\href{https://spec.torproject.org/}{<https://spec.torproject.org/>}}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % techreport - raport techniczny
@@ -237,11 +243,6 @@ month = aug
 % misc - jeśli wszystkie inne kategorie nie pasują; przynajmniej jedno z pól opcjonalnych musi być użyte
 % Wymagane pola: brak
 % Opcjonalne pola: author, title, howpublished, month, year, note.
-@misc{szablon,
-    author  = {Łukasz Makowski},
-    title   = {Szablon prac dyplomowych dla Wydziału Elektrycznego Politechniki Warszawskiej},
-    howpublished    = {\href{https://github.com/SP5LMA/EE-Dyplom}{<https://github.com/SP5LMA/EE-Dyplom>}},
-}
 
 @misc{prezentacja_cisco,
     author = {Cisco},
@@ -265,4 +266,14 @@ month = aug
     title = {HTTP vs. HTTPS: What are the differences?},
     author = {Cloudflare},
     howpublished ={\href{https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/}{<https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/>}}
+}
+
+@misc{ide_docs,
+    title ={Arduino IDE docs},
+    howpublished ={\href{https://docs.arduino.cc/software/ide/}{<https://docs.arduino.cc/software/ide/>}}
+}
+
+@misc{aes_lib,
+    title={mbedtls/aes.h},
+    howpublished={\href{https://github.com/wolfeidau/mbedtls/blob/master/mbedtls/aes.h}{<https://github.com/wolfeidau/mbedtls/blob/master/mbedtls/aes.h>}}
 }

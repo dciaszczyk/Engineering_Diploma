@@ -110,7 +110,7 @@ Wnioski [TODO]
     obu na raz. Sam odbiorca również widzi wiadomość tak jakby została nadana przez ostatni przekaźnik, nie nadawcę. 
     \begin{figure}[H]
 	    \centering \includegraphics[width=16cm]{rysunki/trasowanie.png} 
-	    \caption{Schemat komunikacji techniką trasowania cebulowego, opracowany na podstawie artykułu\cite{tor_onion}, z linią ukośną oraz kolejnymi liniami 
+	    \caption{Schemat komunikacji techniką trasowania cebulowego, opracowanie własne na podstawie artykułu\cite{tor_onion}, z linią ukośną oraz kolejnymi liniami 
         równoległymi symbolizującymi warstwy szyfrowania}
 	    \label{rys:trasowanie}
     \end{figure}
@@ -120,9 +120,10 @@ Wnioski [TODO]
     cebulowego na urządzeniach o ograniczonych zasobach, takich jak mikrokontrolery, nie jest standardem\cite{iot_tor_usage}. Implementacje tej techniki na urządzeniach 
     wbudowanych są rzadkie, 
     oraz nieutrzymywane. Wynika to z niewielkiego obszaru gdzie poświęcenie zasobów mikrokontrolera w tym celu ma sens, obszaru jednak istniejącego. Mikrokontrolery z rodziny 
-    ESP32 stanowią idealny punkt startowy do wprowadzenia takiej implementacji dzięki ich wbudowanemu modułowi Wi-Fi oraz sprzsętowych akceleratorów algorytmów AES, SHA, RSA
-    oraz ECC\cite{esp32_datasheet}. Wykorzystanie urządzeń z rodziny ESP32 z trasowaniem cebulowym nie jest jednak dokładnie przebadane ani udokumentowane, a obciążenie które ta technika wprowadza
-    nie zostało zmierzone. 
+    ESP32 stanowią idealny punkt startowy do wprowadzenia takiej implementacji dzięki ich wbudowanemu modułowi Wi-Fi oraz sprzsętowych akceleratorów algorytmów AES (ang. 
+    Advanced Encryption Standard), SHA (ang. Secure Hash Algorithms), RSA (ang. Rivest–Shamir–Adleman)
+    oraz ECC(ang. Elliptic-Curve Cryptography)\cite{esp32_datasheet}. Wykorzystanie urządzeń z rodziny ESP32 z trasowaniem cebulowym nie jest jednak dokładnie 
+    przebadane ani udokumentowane, a obciążenie które ta technika wprowadza nie zostało zmierzone. 
     
     Celem pracy jest zaprojektowanie, implementacja oraz analiza obciążenia techniki trasowania cebulowego z wykorzystaniem mikrokontrolera ESP32 jako klienta oraz lekkiego 
     przekaźnika. Praca ma odpowiedzieć na pytanie, w jakich scenariuszach IoT takie rozwiązanie jest praktycznie wykonalne oraz sensowne, a w jakich jego wady przeważają nad
@@ -131,15 +132,17 @@ Wnioski [TODO]
     Zakres pracy obejmuje: 
     \begin{itemize}
         \item Przegląd literatury,
-        \item Określenie wymagań funkcjonalnych spełniających założenia trasowania cebulowego,
-        \item Projekt i wykonanie prostej sieci z nałożoną techniką trasowania cebulowego oraz monitorowaniem przesyłanych pakietów,
-        \item Przygotowanie programów pozwalających na komunikację po sieci nakładkowej z wyjściem na zarówno węzeł należący do sieci, jak i węzeł zewnętrzny,
-        \item Testy zaimplementowanego rozwiązania na fizycznym układzie złożonym z sieci mikrokontrolerów, 
-        \item Podsumowanie i wnioski.
+        \item określenie wymagań funkcjonalnych spełniających założenia trasowania cebulowego,
+        \item projekt i wykonanie prostej sieci z nałożoną techniką trasowania cebulowego oraz monitorowaniem przesyłanych pakietów,
+        \item przygotowanie programów pozwalających na komunikację po sieci nakładkowej z wyjściem na zarówno węzeł należący do sieci, jak i węzeł zewnętrzny,
+        \item testy zaimplementowanego rozwiązania na fizycznym układzie złożonym z sieci mikrokontrolerów, 
+        \item podsumowanie i wnioski.
     \end{itemize}
 
-    Część praktyczna została zrealizowana z wykorzystaniem płytek deweloperskich bazujących na ESP32-S3-WROOM-1 oraz środowiska Arduino IDE. Kryptografia realizowana jest
-    za pomocą sprzętowych akceleratorów ESP32 oraz bibliotek dostosowanych do systemów wbudowanych (mbedtls/aes.h na przykład, do rozwinięcia, opcja wyłączonego ADC?). 
+    Część praktyczna została zrealizowana z wykorzystaniem płytek deweloperskich bazujących na ESP32-S3-WROOM-1\cite{s3_wroom_datasheet} oraz środowiska Arduino 
+    IDE\cite{ide_docs}. Kryptografia realizowana jest
+    za pomocą sprzętowych akceleratorów ESP32 oraz bibliotek dostosowanych do systemów wbudowanych (mbedtls/aes.h\cite{aes_lib} na przykład, 
+    do rozwinięcia, opcja wyłączonego ADC?). 
     Zaimplementowane rozwiązanie zostało porównane z różnymi konfiguracjami bardziej standardowych rozwiązań (biblioteka httpclient.h zapewnia http i https, alternatywnie można
     porównać z implementacją tls, ale https to samo używa, MQTT i CoAP to lepsze rozwiązania pod embedded).
     
@@ -153,7 +156,7 @@ Wnioski [TODO]
          
          \item Rozdział 2 - analiza wymagań: charakteryzacja techniki trasowania cebulowego, oraz przedstawienie metody spełnienia jej założeń.
          
-         \item Rozdział 3 - prototypy teorytyczne: przedstawienie prototypów porównujących kluczowe różnice między trasowaniem cebulowym, a bardziej klasycznymi metodami
+         \item Rozdział 3 - prototypy teoretyczne: przedstawienie prototypów porównujących kluczowe różnice między trasowaniem cebulowym, a bardziej klasycznymi metodami
          przesyłania pakietów.
          
          \item Rozdział 4 - projekt rozwiązania: architektura sieci testowej, opis funkcjonalny API modułu trasowania oraz przekaźnika, zebranie metod realizujących trasowanie cebulowe
@@ -186,7 +189,7 @@ Wnioski [TODO]
     Trasowanie cebulowe w swojej klasycznej postaci, znanej z sieci Tor, zakłada istnienie przekaźników wielokrotnie bogatszych w zasoby niż prosty mikrokontroler, 
     zdolnych do utrzymywania wielu równoczesnych obwodów i buforowania pakietów. Mikrokontrolery działają na o wiele bardziej ograniczonych zasobach: w przypadku 
     wykorzystywanej płytki deweloperskiej 512 kB SRAM, 8 MB PSRAM oraz 16 MB pamięci Flash, a jej moc obliczeniowa jest wiele rzędów wielkości mniejsza niż w przypadku 
-    serwerów pełniących rolę przekaźników Tor, wymagających co najmniej 200 MB pojemności dyskowej, obsługę 7000 jednoczesnych połączeń oraz co najmniej 512 MB RAM. 
+    serwerów pełniących rolę przekaźników Tor, wymagających co najmniej 200 MB pojemności dyskowej, obsługę 7000 jednoczesnych połączeń oraz co najmniej 512 MB RAM\cite{relay_requirement}. 
     Uruchomienie na ESP32 pełnego demona Tor nie jest możliwe, ponieważ sam demon wymaga kilkaset razy więcej megabajtów 
     pamięci operacyjnej niż mikrokontroler oferuje.
 
@@ -296,7 +299,7 @@ Wnioski [TODO]
     Przyjęte założenia i wynikające z nich decyzje projektowe zostaną rozwinięte w Rozdziale 3 (prototypy teoretyczne) oraz Rozdziale 4 (projekt rozwiązania), gdzie określona 
     zostanie konkretna architektura sieci testowej, API modułu trasowania i przekaźnika oraz metody realizacji trasowania cebulowego w pełnym zakresie.
 
-    \chapter{prototypy teorytyczne}
+    \chapter{prototypy teoretyczne}
     
     Rozwiązanie przedstawionego problemu powstawało iteracyjnie, na podstawie kolejnych prototypów rozwijających możliwości poprzedniego aż do uzyskania komunikacji
     poprawnie wykorzystującej technikę trasowania cebulowego. 
@@ -311,15 +314,15 @@ Wnioski [TODO]
 
     \begin{figure}[H]
 	    \centering \includegraphics[width=16cm]{rysunki/tracert.png} 
-	    \caption{przykładowa lista przeskoków pomiędzy moją siecią domową a adresem dns google}
+	    \caption{przykładowa lista przeskoków pomiędzy siecią domową autora a adresem dns google}
 	    \label{rys:tracert}
     \end{figure}
 
-    Warto najpierw zapoznać się ze schematem komunikacji po HTTP, porównawczo z wcześniejszym schematem trasowania cebulowego\ref{rys:trasowanie}.
+    Warto najpierw zapoznać się ze schematem komunikacji po HTTP, porównawczo z wcześniejszym schematem trasowania cebulowego~\ref{rys:trasowanie}.
 
     \begin{figure}[H]
 	    \centering \includegraphics[width=16cm]{rysunki/http_schema.png} 
-	    \caption{Uproszczony schemat komunikacji po HTTP, opracowany na podstawie\cite{http_insecure}}
+	    \caption{Uproszczony schemat komunikacji po HTTP, opracowanie własne na podstawie artykułu\cite{http_insecure}}
 	    \label{rys:http-schema}
     \end{figure}
 
@@ -355,7 +358,7 @@ Wnioski [TODO]
     \end{tabular}
     \end{table}
 
-    Te pakiety są zgodne z poprzednim schematem komunikacji z wykorzystaniem HTTP\ref{rys:http-schema}. 
+    Pakiety przeanalizowane w tej sekcji są zgodne ze schematem komunikacji z wykorzystaniem HTTP przedstawionym na poprzednim rysunku~\ref{rys:http-schema}. 
 
     \section{Prototyp przesyłania wiadomości z wykorzystaniem przekaźników}
 
