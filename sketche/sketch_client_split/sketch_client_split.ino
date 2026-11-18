@@ -1,7 +1,3 @@
-// =====================================================================
-// onion_client_extend.ino
-// Onion-routing prototype – CLIENT (z mechanizmem EXTEND)
-// =====================================================================
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <Preferences.h>
@@ -15,80 +11,89 @@
 
 #include <esp_random.h>
 
-// ----------------------------- Protocol ------------------------------
-#define CELL_SIZE           514
+//format pakietu
+
+#define CELL_SIZE           514 //taki jak tor
 #define CELL_HEADER_SIZE    5
-#define CELL_PAYLOAD_SIZE   (CELL_SIZE - CELL_HEADER_SIZE)   // 509
+#define CELL_PAYLOAD_SIZE   (CELL_SIZE - CELL_HEADER_SIZE)   //509
 
-// Komendy komórek (poziom połączenia)
-#define CMD_CREATE          0x01
-#define CMD_CREATED         0x02
-#define CMD_RELAY           0x03
-#define CMD_DESTROY         0x04
+//Polecenia dla komórek (plain)
 
-// Komendy wewnątrz RELAY (payload po odszyfrowaniu)
-#define RELAY_CMD_EXTEND    0x10
-#define RELAY_CMD_EXTENDED  0x11
-#define RELAY_CMD_DATA      0x12
+#define CMD_CREATE          0x01 //tworzenie obwodu
+#define CMD_CREATED         0x02 //odpowiedź
+#define CMD_RELAY           0x03 //przekaż
+#define CMD_DESTROY         0x04 //rozwiązanie obwodu
+
+//Polecenia dla relayi (po odszyfrowaniu)
+
+#define RELAY_CMD_EXTEND    0x10 //dodaj kolejny relay do obwodu
+#define RELAY_CMD_EXTENDED  0x11 //zwrotka
+#define RELAY_CMD_DATA      0x12 //przekaż
+
+//rozmiary kryptograficzne
 
 #define IV_SIZE             16
 #define KEY_SIZE            32
 #define HANDSHAKE_PUB_SIZE  32
 #define HMAC_SIZE           32
 
-// Nagłówek wewnętrznego RELAY (po odszyfrowaniu)
-// targetIP(4) | targetPort(2) | relayCmd(1) | payloadLen(2) | payload...
+//Nagłówek wewnętrzny dla relay
+//targetIP(4), targetPort(2), relayCmd(1), payloadLen(2), payload, padding
+
 #define RELAY_HEADER_SIZE   9
 
 // Maksymalny rozmiar danych wewnątrz RELAY
-#define RELAY_MAX_INNER     (CELL_PAYLOAD_SIZE - IV_SIZE - RELAY_HEADER_SIZE)  // 484
 
-// ----------------------------- WiFi ----------------------------------
+#define RELAY_MAX_INNER     (CELL_PAYLOAD_SIZE - IV_SIZE - RELAY_HEADER_SIZE)  //484
+
+//WiFi
+
 const char* SSID     = "iprivate-4";
 const char* PASSWORD = "Tciaszczyk1980";
 
-// ----------------------------- Structs -------------------------------
-struct __attribute__((packed)) Cell {
-    uint32_t circuitId;          // ID obwodu na danym łączu TLS
+//Structy
+
+struct __attribute__((packed)) Cell { //__attribute__((packed)) powstrzymuje padding przez kompilator
+    uint32_t circuitId;
     uint8_t  command;
     uint8_t  payload[CELL_PAYLOAD_SIZE];
 };
 
 struct Relay {
-    uint32_t ip;                 // big-endian
+    uint32_t ip;
     uint16_t port;
-    uint8_t  x25519Pub[32];      // długoterminowy klucz publiczny (z katalogu)
+    uint8_t  x25519Pub[32]; //klucz publiczny
     char     name[16];
 };
 
 // Stan jednego hopa w obwodzie
+
 struct CircuitHop {
-    uint32_t circuitId;          // ID obwodu na łączu do tego hopa
-    uint8_t  aesKey[KEY_SIZE];   // klucz AES-256-CTR dla warstwy tego hopa
+    uint32_t circuitId;          
+    uint8_t  aesKey[KEY_SIZE];
     bool     active;
 };
 
-// ----------------------------- State ---------------------------------
+//Stan
+
 Relay        gRelays[8];
 uint8_t      gRelayCount = 0;
 Preferences  gPrefs;
 
-// Obwód: maksymalnie 8 hopów
-#define MAX_HOPS 8
+#define MAX_HOPS 3
 CircuitHop   gCircuit[MAX_HOPS];
 uint8_t      gHopCount = 0;
 
-// =====================================================================
-// Utilities (bez zmian)
-// =====================================================================
 static inline uint32_t ipToU32(IPAddress ip) {
     return ((uint32_t)ip[0] << 24) | ((uint32_t)ip[1] << 16) |
            ((uint32_t)ip[2] <<  8) | ((uint32_t)ip[3]);
 }
+
 static inline IPAddress u32ToIp(uint32_t ip) {
     return IPAddress((ip >> 24) & 0xFF, (ip >> 16) & 0xFF,
                      (ip >>  8) & 0xFF,  ip        & 0xFF);
 }
+
 static void hexToBytes(const char* hex, uint8_t* out, size_t len) {
     for (size_t i = 0; i < len; i++) {
         char h[3] = { hex[2*i], hex[2*i+1], 0 };
@@ -96,9 +101,8 @@ static void hexToBytes(const char* hex, uint8_t* out, size_t len) {
     }
 }
 
-// =====================================================================
-// AES-256-CTR (z IV na początku)
-// =====================================================================
+//szyfrowanie aes w trybie counter
+
 static size_t aesEncrypt(const uint8_t* data, size_t len,
                          const uint8_t* key, uint8_t* out) {
     uint8_t iv[IV_SIZE];
@@ -119,30 +123,76 @@ static size_t aesEncrypt(const uint8_t* data, size_t len,
     return IV_SIZE + len;
 }
 
-// =====================================================================
-// X25519
-// =====================================================================
+static size_t aesDecrypt(const uint8_t* data, size_t len,
+                         const uint8_t* key, uint8_t* out) {
+    if (len < IV_SIZE) return 0;
+
+    uint8_t iv[IV_SIZE];
+    memcpy(iv, data, IV_SIZE);
+    size_t cipherLen = len - IV_SIZE;
+
+    mbedtls_aes_context ctx;
+    mbedtls_aes_init(&ctx);
+    mbedtls_aes_setkey_enc(&ctx, key, 256);   // tryb CTR używa szyfrowania do deszyfrowania
+
+    size_t nc_off = 0;
+    uint8_t nonce[16], stream[16];
+    memcpy(nonce, iv, 16);
+    memset(stream, 0, 16);
+    mbedtls_aes_crypt_ctr(&ctx, cipherLen, &nc_off, nonce, stream,
+                          data + IV_SIZE, out);
+
+    mbedtls_aes_free(&ctx);
+    return cipherLen;
+}
+
+//wymiana kluczy (X25519)
+
 static bool x25519Generate(uint8_t priv[32], uint8_t pub[32]) {
     mbedtls_ecdh_context ctx;
     mbedtls_ecdh_init(&ctx);
-    if (mbedtls_ecp_group_load(&ctx.grp, MBEDTLS_ECP_DP_CURVE25519) != 0) {
+
+    if (mbedtls_ecdh_setup(&ctx, MBEDTLS_ECP_DP_CURVE25519) != 0) {
         mbedtls_ecdh_free(&ctx);
         return false;
     }
 
+    // RNG (można użyć esp_random, ale DRBG jest bezpieczniejszy)
     mbedtls_entropy_context entropy;
     mbedtls_ctr_drbg_context drbg;
     mbedtls_entropy_init(&entropy);
     mbedtls_ctr_drbg_init(&drbg);
     mbedtls_ctr_drbg_seed(&drbg, mbedtls_entropy_func, &entropy, nullptr, 0);
 
-    int ret = mbedtls_ecdh_gen_public(&ctx.grp, &ctx.d, &ctx.Q,
-                                      mbedtls_ctr_drbg_random, &drbg);
-    if (ret == 0) {
-        mbedtls_mpi_write_binary(&ctx.d, priv, 32);
-        mbedtls_mpi_write_binary(&ctx.Q.X, pub, 32);
+    // Generuje parę kluczy i eksportuje klucz publiczny (32 B)
+    size_t olen = 0;
+    int ret = mbedtls_ecdh_make_public(&ctx, &olen, pub, 32,
+                                       mbedtls_ctr_drbg_random, &drbg);
+    if (ret != 0) {
+        mbedtls_ecdh_free(&ctx);
+        mbedtls_ctr_drbg_free(&drbg);
+        mbedtls_entropy_free(&entropy);
+        return false;
     }
 
+    // Wyciągnięcie klucza prywatnego z kontekstu
+    mbedtls_ecp_keypair keypair;
+    mbedtls_ecp_keypair_init(&keypair);
+
+    ret = mbedtls_ecdh_get_params(&ctx, &keypair, MBEDTLS_ECDH_OURS);
+    if (ret == 0) {
+        mbedtls_mpi d;
+        mbedtls_mpi_init(&d);
+
+        // Eksport klucza prywatnego (d) – nie odwołujemy się do pól struktury
+        ret = mbedtls_ecp_export(&keypair, nullptr, &d, nullptr);
+        if (ret == 0) {
+            mbedtls_mpi_write_binary(&d, priv, 32);
+        }
+        mbedtls_mpi_free(&d);
+    }
+
+    mbedtls_ecp_keypair_free(&keypair);
     mbedtls_ecdh_free(&ctx);
     mbedtls_ctr_drbg_free(&drbg);
     mbedtls_entropy_free(&entropy);
@@ -154,40 +204,56 @@ static bool x25519Shared(const uint8_t priv[32],
                          uint8_t out[32]) {
     mbedtls_ecdh_context ctx;
     mbedtls_ecdh_init(&ctx);
-    if (mbedtls_ecp_group_load(&ctx.grp, MBEDTLS_ECP_DP_CURVE25519) != 0) {
+
+    if (mbedtls_ecdh_setup(&ctx, MBEDTLS_ECP_DP_CURVE25519) != 0) {
         mbedtls_ecdh_free(&ctx);
         return false;
     }
 
-    mbedtls_mpi_read_binary(&ctx.d, priv, 32);
-    if (mbedtls_ecdh_read_public(&ctx, peerPub, 32) != 0) {
+    mbedtls_ecp_keypair keypair;
+    mbedtls_ecp_keypair_init(&keypair);
+
+    int ret = mbedtls_ecp_read_key(MBEDTLS_ECP_DP_CURVE25519, &keypair, priv, 32);
+    if (ret != 0) {
+        mbedtls_ecp_keypair_free(&keypair);
         mbedtls_ecdh_free(&ctx);
         return false;
     }
 
-    mbedtls_mpi z;
-    mbedtls_mpi_init(&z);
+    // Ustawiamy nasz klucz w kontekście ECDH
+    ret = mbedtls_ecdh_get_params(&ctx, &keypair, MBEDTLS_ECDH_OURS);
+    mbedtls_ecp_keypair_free(&keypair);
+    if (ret != 0) {
+        mbedtls_ecdh_free(&ctx);
+        return false;
+    }
 
+    // Importujemy klucz publiczny drugiej strony
+    ret = mbedtls_ecdh_read_public(&ctx, peerPub, 32);
+    if (ret != 0) {
+        mbedtls_ecdh_free(&ctx);
+        return false;
+    }
+
+    // Obliczamy wspólny sekret
+    size_t olen = 0;
     mbedtls_entropy_context entropy;
     mbedtls_ctr_drbg_context drbg;
     mbedtls_entropy_init(&entropy);
     mbedtls_ctr_drbg_init(&drbg);
     mbedtls_ctr_drbg_seed(&drbg, mbedtls_entropy_func, &entropy, nullptr, 0);
 
-    int ret = mbedtls_ecdh_compute_shared(&ctx.grp, &z, &ctx.Qp, &ctx.d,
-                                          mbedtls_ctr_drbg_random, &drbg);
-    if (ret == 0) mbedtls_mpi_write_binary(&z, out, 32);
+    ret = mbedtls_ecdh_calc_secret(&ctx, &olen, out, 32,
+                                   mbedtls_ctr_drbg_random, &drbg);
 
-    mbedtls_mpi_free(&z);
     mbedtls_ecdh_free(&ctx);
     mbedtls_ctr_drbg_free(&drbg);
     mbedtls_entropy_free(&entropy);
     return ret == 0;
 }
 
-// =====================================================================
 // HKDF / HMAC
-// =====================================================================
+
 static void hmacSHA256(const uint8_t* key, size_t keyLen,
                        const uint8_t* data, size_t dataLen,
                        uint8_t out[32]) {
@@ -203,15 +269,79 @@ static void hkdfSHA256(const uint8_t* ikm, size_t ikmLen,
                  salt, saltLen, ikm, ikmLen, info, infoLen, out, outLen);
 }
 
-// =====================================================================
-// Katalog relayów (NVS – bez zmian)
-// =====================================================================
-static void loadDefaultRelays() { /* identycznie jak w poprzedniej wersji */ }
-static void loadRelaysFromNVS() { /* identycznie */ }
+//katalog relayów (NVS)
 
-// =====================================================================
+static void loadDefaultRelays() {
+    //json relayi
+    const char* defaultJson = R"JSON(
+    [
+      {
+        "name": "relay1",
+        "ip": "172.16.102.243",
+        "port": 8001,
+        "pub": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+      },
+      {
+        "name": "relay2",
+        "ip": "172.16.102.243",
+        "port": 8002,
+        "pub": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f"
+      },
+      {
+        "name": "relay3",
+        "ip": "172.16.102.243",
+        "port": 8003,
+        "pub": "404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f"
+      }
+    ]
+    )JSON";
+
+    StaticJsonDocument<2048> doc;
+    if (deserializeJson(doc, defaultJson) != DeserializationError::Ok) {
+        Serial.println("default relay JSON parse failed");
+        return;
+    }
+    gRelayCount = 0;
+    for (JsonObject r : doc.as<JsonArray>()) {
+        if (gRelayCount >= 8) break;
+        Relay& out = gRelays[gRelayCount++];
+        IPAddress ip;
+        ip.fromString(r["ip"].as<const char*>());
+        out.ip   = ipToU32(ip);
+        out.port = r["port"].as<uint16_t>();
+        strlcpy(out.name, r["name"] | "relay", sizeof(out.name));
+        hexToBytes(r["pub"].as<const char*>(), out.x25519Pub, 32);
+    }
+}
+
+static void loadRelaysFromNVS() {
+    gPrefs.begin("relays", true);
+    String json = gPrefs.getString("dir", "");
+    gPrefs.end();
+
+    if (json.length() == 0) { loadDefaultRelays(); return; }
+
+    StaticJsonDocument<4096> doc;
+    if (deserializeJson(doc, json) != DeserializationError::Ok) {
+        Serial.println("NVS relay JSON parse failed, using defaults");
+        loadDefaultRelays();
+        return;
+    }
+    gRelayCount = 0;
+    for (JsonObject r : doc.as<JsonArray>()) {
+        if (gRelayCount >= 8) break;
+        Relay& out = gRelays[gRelayCount++];
+        IPAddress ip;
+        ip.fromString(r["ip"].as<const char*>());
+        out.ip   = ipToU32(ip);
+        out.port = r["port"].as<uint16_t>();
+        strlcpy(out.name, r["name"] | "relay", sizeof(out.name));
+        hexToBytes(r["pub"].as<const char*>(), out.x25519Pub, 32);
+    }
+}
+
 // TLS
-// =====================================================================
+
 static bool tlsConnect(WiFiClientSecure& c, const Relay& r) {
     c.setInsecure();
     c.setTimeout(10);
@@ -240,9 +370,8 @@ static bool readExact(WiFiClientSecure& c, uint8_t* buf, size_t n,
     return true;
 }
 
-// =====================================================================
-// Handshake BEZPOŚREDNI (tylko dla pierwszego hopa)
-// =====================================================================
+// Handshake
+
 static bool handshakeFirstHop(const Relay& relay, CircuitHop& out) {
     WiFiClientSecure tls;
     if (!tlsConnect(tls, relay)) return false;
@@ -307,21 +436,19 @@ static bool handshakeFirstHop(const Relay& relay, CircuitHop& out) {
     return true;
 }
 
-// =====================================================================
 // EXTEND – przedłużenie obwodu przez istniejące połączenie
-// =====================================================================
+
 // Buduje komórkę RELAY z komendą EXTEND, która zostanie wysłana do
 // ostatniego hopa. Payload EXTEND zawiera:
-//   nextIP(4) | nextPort(2) | ephPub(32) | HMAC(32) | padding
-// Całość jest szyfrowana kluczem ostatniego hopa (warstwa cebuli).
+//   nextIP(4), nextPort(2), ephPub(32), HMAC(32), padding
+// Całość jest szyfrowana kluczem ostatniego hopa
+
 static bool sendExtendToLastHop(const Relay& nextRelay) {
     if (gHopCount == 0 || gHopCount >= MAX_HOPS) return false;
 
     uint8_t ephPriv[32], ephPub[32];
     if (!x25519Generate(ephPriv, ephPub)) return false;
 
-    // --- warstwa wewnętrzna: dla ostatniego ustanowionego hopa ---
-    // header(9) = targetIP(4) | targetPort(2) | relayCmd(1) | payloadLen(2)
     uint8_t inner[CELL_PAYLOAD_SIZE];
     size_t  off = 0;
     memcpy(inner + off, &nextRelay.ip,   4); off += 4;
@@ -337,7 +464,6 @@ static bool sendExtendToLastHop(const Relay& nextRelay) {
                                    gCircuit[gHopCount - 1].aesKey, cipher);
     // cipherLen = 16 + 41 = 57
 
-    // --- owijanie dla wcześniejszych hopów (jak w buildOnion) ---
     for (int i = gHopCount - 2; i >= 0; i--) {
         uint8_t wrapper[CELL_PAYLOAD_SIZE];
         size_t  w = 0;
@@ -353,7 +479,6 @@ static bool sendExtendToLastHop(const Relay& nextRelay) {
         cipherLen = aesEncrypt(wrapper, w, gCircuit[i].aesKey, cipher);
     }
 
-    // --- wyślij do entry ---
     WiFiClientSecure tls;
     if (!tlsConnect(tls, gRelays[0])) return false;
 
@@ -377,7 +502,7 @@ static bool sendExtendToLastHop(const Relay& nextRelay) {
     if (extended.command != CMD_RELAY ||
         extended.circuitId != gCircuit[0].circuitId) return false;
 
-    // --- odszyfruj K1, K2, …, K_last (kolejność: od entry do ostatniego hopa) ---
+    //odszyfruj K1, K2, …, K_last
     uint8_t buf[CELL_PAYLOAD_SIZE];
     size_t  bufLen = CELL_PAYLOAD_SIZE;
     memcpy(buf, extended.payload, CELL_PAYLOAD_SIZE);
@@ -400,7 +525,7 @@ static bool sendExtendToLastHop(const Relay& nextRelay) {
     memcpy(relayEphPub, buf + RELAY_HEADER_SIZE, HANDSHAKE_PUB_SIZE);
     const uint8_t* receivedHmac = buf + RELAY_HEADER_SIZE + HANDSHAKE_PUB_SIZE;
 
-    // --- wylicz klucz nowego hopa ---
+    //wylicz klucz nowego hopa
     uint8_t shared[32];
     if (!x25519Shared(ephPriv, relayEphPub, shared)) return false;
 
@@ -409,7 +534,7 @@ static bool sendExtendToLastHop(const Relay& nextRelay) {
     hkdfSHA256(shared, sizeof(shared), nullptr, 0,
                info, sizeof(info) - 1, newKey, KEY_SIZE);
 
-    // --- weryfikacja HMAC od nowego hopa ---
+    //weryfikacja HMAC od nowego hopa
     uint8_t transcript[HANDSHAKE_PUB_SIZE * 2];
     memcpy(transcript, ephPub, HANDSHAKE_PUB_SIZE);
     memcpy(transcript + HANDSHAKE_PUB_SIZE, relayEphPub, HANDSHAKE_PUB_SIZE);
@@ -421,7 +546,7 @@ static bool sendExtendToLastHop(const Relay& nextRelay) {
         return false;
     }
 
-    gCircuit[gHopCount].circuitId = 0; // nie używamy na drucie
+    gCircuit[gHopCount].circuitId = 0;
     memcpy(gCircuit[gHopCount].aesKey, newKey, KEY_SIZE);
     gCircuit[gHopCount].active = true;
     gHopCount++;
@@ -430,18 +555,17 @@ static bool sendExtendToLastHop(const Relay& nextRelay) {
     return true;
 }
 
-// =====================================================================
-// Budowa cebuli (z uwzględnieniem wielu hopów)
-// =====================================================================
+// Budowa cebuli
+
 // Buduje cebulę dla docelowego adresu, używając kluczy wszystkich
-// aktywnych hopów w gCircuit. Wynik to jedna warstwa zewnętrzna,
-// gotowa do wysłania do entry relay jako RELAY.
+// aktywnych hopów w gCircuit. Wynik to finalny pakiet gotowy do wysłania
+
 static size_t buildOnion(uint32_t finalIP, uint16_t finalPort,
                          const uint8_t* data, size_t dataLen,
                          uint8_t* outCipher) {
     if (gHopCount == 0 || dataLen > RELAY_MAX_INNER) return 0;
 
-    // Najgłębsza warstwa – dla ostatniego hopa
+    //faktyczna wiadomość
     uint8_t inner[CELL_PAYLOAD_SIZE];
     size_t  off = 0;
     memcpy(inner + off, &finalIP,   4); off += 4;
@@ -461,12 +585,12 @@ static size_t buildOnion(uint32_t finalIP, uint16_t finalPort,
         uint8_t wrapper[CELL_PAYLOAD_SIZE];
         size_t  w = 0;
 
-        // Adres następnego hopa (dla przekierowania)
+        //Adres następnego hopa
         uint32_t nextIP   = gRelays[i + 1].ip;
         uint16_t nextPort = gRelays[i + 1].port;
         memcpy(wrapper + w, &nextIP,   4); w += 4;
         memcpy(wrapper + w, &nextPort, 2); w += 2;
-        wrapper[w++] = RELAY_CMD_DATA; // nie jest to finalny cel, tylko przekazanie
+        wrapper[w++] = RELAY_CMD_DATA;
         uint16_t innerLen = (uint16_t)cipherLen;
         memcpy(wrapper + w, &innerLen, 2); w += 2;
         memcpy(wrapper + w, cipher, cipherLen); w += cipherLen;
@@ -478,9 +602,8 @@ static size_t buildOnion(uint32_t finalIP, uint16_t finalPort,
     return cipherLen;
 }
 
-// =====================================================================
 // Wysłanie komórki RELAY do entry relay
-// =====================================================================
+
 static bool sendRelayCell(const uint8_t* cipherPayload, size_t cipherLen) {
     if (gHopCount == 0 || cipherLen > CELL_PAYLOAD_SIZE) return false;
 
@@ -502,20 +625,32 @@ static bool sendRelayCell(const uint8_t* cipherPayload, size_t cipherLen) {
     return ok;
 }
 
-// =====================================================================
-// Główna procedura: zbuduj obwód 3-hopowy i wyślij dane
-// =====================================================================
+//połączenie wifi
+
+static void connectWiFi() {
+    Serial.printf("Connecting to %s\n", SSID);
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(SSID, PASSWORD);
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print('.');
+    }
+    Serial.printf("\nConnected, IP=%s\n", WiFi.localIP().toString().c_str());
+}
+
+//Prototyp: budowa obwodu i wysłanie danych
+
 static void runOnionDemo() {
     if (gRelayCount < 3) {
         Serial.println("Need at least 3 relays");
         return;
     }
 
-    // Reset stanu obwodu
+    //Reset stanu obwodu
     gHopCount = 0;
     memset(gCircuit, 0, sizeof(gCircuit));
 
-    // ---- Hop 1: bezpośredni handshake ----
+    //Hop 1: bezpośredni handshake
     Serial.printf("Creating first hop with %s...\n", gRelays[0].name);
     if (!handshakeFirstHop(gRelays[0], gCircuit[0])) {
         Serial.println("First-hop handshake failed");
@@ -523,14 +658,14 @@ static void runOnionDemo() {
     }
     gHopCount = 1;
 
-    // ---- Hop 2: EXTEND ----
+    //Hop 2: EXTEND
     Serial.printf("Extending to %s...\n", gRelays[1].name);
     if (!sendExtendToLastHop(gRelays[1])) {
         Serial.println("EXTEND to hop 2 failed");
         return;
     }
 
-    // ---- Hop 3: EXTEND ----
+    //Hop 3: EXTEND
     Serial.printf("Extending to %s...\n", gRelays[2].name);
     if (!sendExtendToLastHop(gRelays[2])) {
         Serial.println("EXTEND to hop 3 failed");
@@ -539,7 +674,7 @@ static void runOnionDemo() {
 
     Serial.printf("Circuit established with %u hops\n", gHopCount);
 
-    // ---- Wyślij dane przez gotowy obwód ----
+    //Wyślij dane przez gotowy obwód
     const uint32_t DEST_IP   = 0xAC1066F3;   // 172.16.102.243
     const uint16_t DEST_PORT = 9000;
     const char*    text      = "hello world";
@@ -560,9 +695,6 @@ static void runOnionDemo() {
     }
 }
 
-// =====================================================================
-// setup / loop
-// =====================================================================
 void setup() {
     Serial.begin(115200);
     delay(200);
