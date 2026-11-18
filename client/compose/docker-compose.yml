@@ -1,6 +1,6 @@
 x-relay: &relay
   build:
-    context: ..
+    context: ../..
     dockerfile: compose/Dockerfile
   image: onion-proto:latest
   network_mode: host
