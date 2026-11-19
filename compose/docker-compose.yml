@@ -13,6 +13,9 @@ services:
       PORT: "8001"
     ports:
       - "8001:8001"
+    networks:
+      onionnet:
+        ipv4_address: 172.28.0.11
 
   relay2:
     <<: *common
@@ -21,6 +24,9 @@ services:
       PORT: "8002"
     ports:
       - "8002:8002"
+    networks:
+      onionnet:
+        ipv4_address: 172.28.0.12
 
   relay3:
     <<: *common
@@ -29,6 +35,9 @@ services:
       PORT: "8003"
     ports:
       - "8003:8003"
+    networks:
+      onionnet:
+        ipv4_address: 172.28.0.13
 
   final:
     <<: *common
@@ -37,3 +46,13 @@ services:
       PORT: "9000"
     ports:
       - "9000:9000"
+    networks:
+      onionnet:
+        ipv4_address: 172.28.0.20
+
+networks:
+  onionnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
