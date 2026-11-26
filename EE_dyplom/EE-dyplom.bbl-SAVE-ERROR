@@ -1,0 +1,371 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{ide_docs}{misc}{}{}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://docs.arduino.cc/software/ide/}{<https://docs.arduino.cc/software/ide/>}}
+      \field{title}{Arduino IDE docs}
+    \endentry
+    \entry{soax_iot_count}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=818a4007d6fac6c722dee6956d2a77a6}{%
+           family={Bianes},
+           familyi={B\bibinitperiod},
+           given={Gail},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{818a4007d6fac6c722dee6956d2a77a6}
+      \strng{fullhash}{818a4007d6fac6c722dee6956d2a77a6}
+      \strng{fullhashraw}{818a4007d6fac6c722dee6956d2a77a6}
+      \strng{bibnamehash}{818a4007d6fac6c722dee6956d2a77a6}
+      \strng{authorbibnamehash}{818a4007d6fac6c722dee6956d2a77a6}
+      \strng{authornamehash}{818a4007d6fac6c722dee6956d2a77a6}
+      \strng{authorfullhash}{818a4007d6fac6c722dee6956d2a77a6}
+      \strng{authorfullhashraw}{818a4007d6fac6c722dee6956d2a77a6}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SOAX}
+      \field{month}{8}
+      \field{note}{\href{https://soax.com/research/internet-of-things-growth}{<https://soax.com/research/internet-of-things-growth>}}
+      \field{title}{How many devices are connected to the IoT?}
+      \field{year}{2025}
+    \endentry
+    \entry{json_spec}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=ca0418f0dc334d743a5a6f847b734863}{%
+           family={Blanchon},
+           familyi={B\bibinitperiod},
+           given={Benoît},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{fullhash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{fullhashraw}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{bibnamehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authorbibnamehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authornamehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authorfullhash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authorfullhashraw}{ca0418f0dc334d743a5a6f847b734863}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Version 7}
+      \field{note}{\href{https://arduinojson.org/v7/api/}{<https://arduinojson.org/v7/api/>}}
+      \field{title}{ArduinoJson API Reference}
+    \endentry
+    \entry{prezentacja_cisco}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=7b1d1185b835814de783483f686e9825}{%
+           family={Cisco},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{7b1d1185b835814de783483f686e9825}
+      \strng{fullhash}{7b1d1185b835814de783483f686e9825}
+      \strng{fullhashraw}{7b1d1185b835814de783483f686e9825}
+      \strng{bibnamehash}{7b1d1185b835814de783483f686e9825}
+      \strng{authorbibnamehash}{7b1d1185b835814de783483f686e9825}
+      \strng{authornamehash}{7b1d1185b835814de783483f686e9825}
+      \strng{authorfullhash}{7b1d1185b835814de783483f686e9825}
+      \strng{authorfullhashraw}{7b1d1185b835814de783483f686e9825}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://futuretimeline.net/data-trends/pdfs/cisco-2017-2022.pdf}{<https://futuretimeline.net/data-trends/pdfs/cisco-2017-2022.pdf>}}
+      \field{title}{Cisco Visual Networking Index: Forecast and Trends, 2017–2022}
+      \field{year}{2019}
+    \endentry
+    \entry{http_insecure}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=3f07179a07b2a7661e37a3fd0e652a07}{%
+           family={Cloudflare},
+           familyi={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{fullhash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{fullhashraw}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{bibnamehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authorbibnamehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authornamehash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authorfullhash}{3f07179a07b2a7661e37a3fd0e652a07}
+      \strng{authorfullhashraw}{3f07179a07b2a7661e37a3fd0e652a07}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/}{<https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/>}}
+      \field{title}{HTTP vs. HTTPS: What are the differences?}
+    \endentry
+    \entry{vuln_disclosure}{misc}{}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://www.sentinelone.com/vulnerability-database/cve-2024-32384/}{<https://www.sentinelone.com/vulnerability-database/cve-2024-32384/>}}
+      \field{title}{CVE-2024-32384: Kerlink Gateway Information Disclosure}
+      \field{year}{2026}
+    \endentry
+    \entry{tor_onion}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=9c2faaae20084eaed8aa8df64e8339c7}{%
+           family={Dingledine},
+           familyi={D\bibinitperiod},
+           given={Roger},
+           giveni={R\bibinitperiod}}}%
+        {{hash=1ee2592c88d805ce30055d25a49a8327}{%
+           family={Mathewson},
+           familyi={M\bibinitperiod},
+           given={Nick},
+           giveni={N\bibinitperiod}}}%
+        {{hash=ab5ed679e78db4d6fd5091d79c026cd3}{%
+           family={Syverson},
+           familyi={S\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Diego, CA}%
+      }
+      \list{publisher}{1}{%
+        {USENIX Association}%
+      }
+      \strng{namehash}{d76d22e8f8c85df0bfdd6e28309b2b63}
+      \strng{fullhash}{1f04bf1c60d75fb7a0e14cfc7d308350}
+      \strng{fullhashraw}{1f04bf1c60d75fb7a0e14cfc7d308350}
+      \strng{bibnamehash}{1f04bf1c60d75fb7a0e14cfc7d308350}
+      \strng{authorbibnamehash}{1f04bf1c60d75fb7a0e14cfc7d308350}
+      \strng{authornamehash}{d76d22e8f8c85df0bfdd6e28309b2b63}
+      \strng{authorfullhash}{1f04bf1c60d75fb7a0e14cfc7d308350}
+      \strng{authorfullhashraw}{1f04bf1c60d75fb7a0e14cfc7d308350}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{13th USENIX Security Symposium (USENIX Security 04)}
+      \field{month}{8}
+      \field{title}{Tor: The {Second-Generation} Onion Router}
+      \field{year}{2004}
+      \verb{urlraw}
+      \verb https://www.usenix.org/conference/13th-usenix-security-symposium/tor-second-generation-onion-router
+      \endverb
+      \verb{url}
+      \verb https://www.usenix.org/conference/13th-usenix-security-symposium/tor-second-generation-onion-router
+      \endverb
+    \endentry
+    \entry{esp32_datasheet}{manual}{}{}
+      \list{organization}{1}{%
+        {ESPRESSIF Systems}%
+      }
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labeltitlesource}{title}
+      \field{title}{ESP32 Series Datasheet Version 5.3}
+    \endentry
+    \entry{s3_wroom_datasheet}{manual}{}{}
+      \list{organization}{1}{%
+        {ESPRESSIF Systems}%
+      }
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labeltitlesource}{title}
+      \field{note}{\href{https://documentation.espressif.com/esp32-s3-wroom-1_wroom-1u_datasheet_en.html}{<https://documentation.espressif.com/esp32-s3-wroom-1\_wroom-1u\_datasheet\_en.html>}}
+      \field{title}{ESP32-S3-WROOM-1 ESP32-S3-WROOM-1U Datasheet Version 1.8}
+    \endentry
+    \entry{iot_tor_usage}{inproceedings}{}{}
+      \name{author}{6}{}{%
+        {{hash=c181cca26e9c84c2a6ece15465858520}{%
+           family={Hiller},
+           familyi={H\bibinitperiod},
+           given={Jens},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ed6b4f35db6710eed5c968884020a4a0}{%
+           family={Pennekamp},
+           familyi={P\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=1dbcbc3c981e61a316c30555291b7482}{%
+           family={Dahlmanns},
+           familyi={D\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=dcae17f694a35a7d3164ed1626541a02}{%
+           family={Henze},
+           familyi={H\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=e97d863a5d3de40faddc2e991b03c99c}{%
+           family={Panchenko},
+           familyi={P\bibinitperiod},
+           given={Andriy},
+           giveni={A\bibinitperiod}}}%
+        {{hash=33e571988d5d7d8503dac40ce2c0d098}{%
+           family={Wehrle},
+           familyi={W\bibinitperiod},
+           given={Klaus},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{bdd5e6a9c254000ece7ddf3c4ac9bdf5}
+      \strng{fullhash}{726ac4037a2f7ea9c8c45e9dbe3471b8}
+      \strng{fullhashraw}{726ac4037a2f7ea9c8c45e9dbe3471b8}
+      \strng{bibnamehash}{726ac4037a2f7ea9c8c45e9dbe3471b8}
+      \strng{authorbibnamehash}{726ac4037a2f7ea9c8c45e9dbe3471b8}
+      \strng{authornamehash}{bdd5e6a9c254000ece7ddf3c4ac9bdf5}
+      \strng{authorfullhash}{726ac4037a2f7ea9c8c45e9dbe3471b8}
+      \strng{authorfullhashraw}{726ac4037a2f7ea9c8c45e9dbe3471b8}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2019 IEEE 27th International Conference on Network Protocols (ICNP)}
+      \field{title}{Tailoring Onion Routing to the Internet of Things: Security and Privacy in Untrusted Environments}
+      \field{year}{2019}
+      \field{pages}{1\bibrangedash 12}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1109/ICNP.2019.8888033
+      \endverb
+      \keyw{Routing;Internet of Things;Protocols;Cryptography;Servers}
+    \endentry
+    \entry{aes_lib}{misc}{}{}
+      \field{sortinit}{m}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://github.com/wolfeidau/mbedtls/blob/master/mbedtls/aes.h}{<https://github.com/wolfeidau/mbedtls/blob/master/mbedtls/aes.h>}}
+      \field{title}{mbedtls/aes.h}
+    \endentry
+    \entry{relay_requirement}{misc}{}{}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://community.torproject.org/relay/relays-requirements/}{<https://community.torproject.org/relay/relays-requirements/>}}
+      \field{title}{Relay Operations: Relay Requirements}
+    \endentry
+    \entry{ieee_dw_survey}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=d8da0e6e8844ecd46ebac0e1e98c23b9}{%
+           family={Saleem},
+           familyi={S\bibinitperiod},
+           given={Javeriah},
+           giveni={J\bibinitperiod}}}%
+        {{hash=09f10f4a3b8df1830febb44d6eb0de42}{%
+           family={Islam},
+           familyi={I\bibinitperiod},
+           given={Rafiqul},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d5d60c775ab4437ffca9f1b9d0eced80}{%
+           family={Kabir},
+           familyi={K\bibinitperiod},
+           given={Muhammad\bibnamedelima Ashad},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{91649f990e35d757c216af99ea5d4cc5}
+      \strng{fullhash}{0de877a9407f12a67125d5b2b8526736}
+      \strng{fullhashraw}{0de877a9407f12a67125d5b2b8526736}
+      \strng{bibnamehash}{0de877a9407f12a67125d5b2b8526736}
+      \strng{authorbibnamehash}{0de877a9407f12a67125d5b2b8526736}
+      \strng{authornamehash}{91649f990e35d757c216af99ea5d4cc5}
+      \strng{authorfullhash}{0de877a9407f12a67125d5b2b8526736}
+      \strng{authorfullhashraw}{0de877a9407f12a67125d5b2b8526736}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{The Anonymity of the Dark Web: A Survey}
+      \field{volume}{10}
+      \field{year}{2022}
+      \field{pages}{33628\bibrangedash 33660}
+      \range{pages}{33}
+      \verb{doi}
+      \verb 10.1109/ACCESS.2022.3161547
+      \endverb
+      \keyw{Computer crime;Taxonomy;Web sites;Fingerprint recognition;Search engines;Internet;Browsers;Computer security;Attack taxonomy;crimes;dark web;Freenet;I2P;threat intelligence;Tor}
+    \endentry
+    \entry{Survey_WOT}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=a88060b87b3721c22d62af8fdd776a3a}{%
+           family={Sciullo},
+           familyi={S\bibinitperiod},
+           given={Luca},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0a1bdcc29f48b0a11444a3c5c610cc50}{%
+           family={Gigli},
+           familyi={G\bibinitperiod},
+           given={Lorenzo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=e2e0388d46f2c2b6b65e0f82ca6435d5}{%
+           family={Montori},
+           familyi={M\bibinitperiod},
+           given={Federico},
+           giveni={F\bibinitperiod}}}%
+        {{hash=f6e2856afb5b3ec595ce93f8bf4c895c}{%
+           family={Trotta},
+           familyi={T\bibinitperiod},
+           given={Angelo},
+           giveni={A\bibinitperiod}}}%
+        {{hash=307301bba3d1eb9581ebf989a35ca2d0}{%
+           family={Felice},
+           familyi={F\bibinitperiod},
+           given={Marco\bibnamedelima Di},
+           giveni={M\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{fdda81a71fff1c88c3d32472c2d4f994}
+      \strng{fullhash}{c844bfd9cc3a076cd9f1a9eb981e5546}
+      \strng{fullhashraw}{c844bfd9cc3a076cd9f1a9eb981e5546}
+      \strng{bibnamehash}{c844bfd9cc3a076cd9f1a9eb981e5546}
+      \strng{authorbibnamehash}{c844bfd9cc3a076cd9f1a9eb981e5546}
+      \strng{authornamehash}{fdda81a71fff1c88c3d32472c2d4f994}
+      \strng{authorfullhash}{c844bfd9cc3a076cd9f1a9eb981e5546}
+      \strng{authorfullhashraw}{c844bfd9cc3a076cd9f1a9eb981e5546}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Access}
+      \field{title}{A Survey on the Web of Things}
+      \field{volume}{10}
+      \field{year}{2022}
+      \field{pages}{47570\bibrangedash 47596}
+      \range{pages}{27}
+      \verb{doi}
+      \verb 10.1109/ACCESS.2022.3171575
+      \endverb
+      \keyw{Internet of Things;Interoperability;Standards;Protocols;W3C;Taxonomy;Object recognition;Deployments;internet of things;software architectures;web of things}
+    \endentry
+    \entry{tor_spec}{manual}{}{}
+      \list{organization}{1}{%
+        {The Tor Project}%
+      }
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labeltitlesource}{title}
+      \field{edition}{commit SHA = 5ae6ee90c2753efb90d277aaa28bca59aaba0250}
+      \field{note}{\href{https://spec.torproject.org/}{<https://spec.torproject.org/>}}
+      \field{title}{Tor Specifications}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

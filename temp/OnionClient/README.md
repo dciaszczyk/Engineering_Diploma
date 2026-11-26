@@ -61,7 +61,7 @@ void setup() {
 }
 ```
 
-## Jak to działa
+## Działanie biblioteki
 
 Klient: zadanie FreeRTOS `onion` jest jedynym właścicielem obwodu; reszta programu wkłada wiadomości do
 kolejki przez `send()`. Relay: zadanie `onion-acc` przyjmuje połączenia TCP,
@@ -74,7 +74,7 @@ zadania `onion-rw` (workery) robią handshake TLS i obsługują jedną komórkę
 | `OnionCrypto` | X25519, HKDF, HMAC, AES-GCM, `encryptLayer`/`decryptLayer`, `Handshake` (obie strony) |
 | `OnionSeal` | szyfrowanie end-to-end klient <-> cel (obie strony) |
 | `OnionRandom` | wybór źródła entropii |
-| `OnionTransport` | jedna komórka = jedno połączenie TLS; TCP do celu (exit) |
+| `OnionTransport` | jedna komórka = jedno połączenie TLS; TCP do odbiorcy |
 | `OnionCircuit` | klient: `build` (CREATE + EXTEND), `send`, `destroy` |
 | `PathSelect` | dobór ścieżki (kolejność / losowo, entry, exit) |
 | `OnionClient` | zadanie FreeRTOS klienta: kolejka, retry, ponowne użycie obwodu, e2e |
@@ -82,7 +82,7 @@ zadania `onion-rw` (workery) robią handshake TLS i obsługują jedną komórkę
 | `OnionTlsServer`, `OnionRelay` | serwer TLS na mbedTLS i `RelayNode` (zadania, rejestracja) |
 | `RelayDirectory`, `RelayIdentity` | katalog (JSON, NVS, HTTP), tożsamość relaya w NVS |
 
-## Protokół w skrócie
+## Działanie protokołu
 
 ```
 KOMÓRKA 514 B:  circuit_id(4) | cmd(1) | payload(509)

@@ -59,9 +59,10 @@ koniecznością ustanawiania tras komunikacyjnych, przechowywania informacji o p
 zbadano potencjalne słabości rozwiązania, takie jak analiza czasowa ruchu sieciowego czy ryzyko związane z węzłem wyjściowym w przypadku braku dodatkowego 
 szyfrowania end-to-end. 
 
-Na potrzeby tej pracy inżynierskiej powstały prototypy prezentujące komunikację standardowymi protokołami http/https, jak i stopniowe wprowadzanie techniki
-trasowania cebulowego celem zaprezentowania efektu który zapewnia w kwestii przesłaniania informacji o uczestnikach komunikacji. Dodatkowo, powstały proste 
-kontenery realizację funkcje przekaźników. [TODO streszczenie wyników] Końcowo, powstały programy w C realizujące technikę trasowania cebulowego jako klient jak i przekaźnik na 
+Na potrzeby tej pracy inżynierskiej powstały prototypy prezentujące komunikację standardowymi protokołami http/https, MQTT (Message Queuing Telemetry Transport) i CoAP 
+(Constrained Application Protocol) , jak i stopniowe wprowadzanie techniki
+trasowania cebulowego celem zaprezentowania efektu który zapewnia w przesłanianiu informacji o uczestnikach komunikacji. Dodatkowo, powstał zbiór testów wydajnościowych
+napisanych w języku Python. [TODO streszczenie wyników] Końcowo, powstały programy w C realizujące technikę trasowania cebulowego jako klient jak i przekaźnik na 
 mikrokontrolerach z rodziny ESP32, oraz analizy identyfikujące sensowne zastosowania dla techniki trasowania cebulowego na tych mikrokontrolerach. Analizy wydajnościowe
 rozwiązania sugerują to i owo.
 
@@ -199,7 +200,7 @@ Wnioski [TODO]
 
     \section{Wymagania funkcjonalne}
 
-    Wymagania funkcjonalne określają, jakie funkcje rozwiązanie musi realizować, aby można było mówić o działającej implementacji trasowania cebulowego.
+    Wymagania funkcjonalne (WF) określają, jakie funkcje rozwiązanie musi realizować, aby można było mówić o działającej implementacji trasowania cebulowego.
 
     WF-1. Zestawianie obwodu trasowania cebulowego.
     Implementacja musi umożliwiać wybór sekwencji przekaźników i stworzenie obwodu, przez który będą przekazywane wiadomości. Stworzenie obwodu obejmuje 
@@ -208,8 +209,8 @@ Wnioski [TODO]
     \begin{itemize}
 
     \item WF-2. Warstwowe szyfrowanie wiadomości.
-    Implementacja musi realizować szyfrowanie wiadomości w taki sposób, aby każdy kolejny przekaźnik mógł odszyfrować wyłącznie jedną warstwę, nie poznając przy tym pełnej trasy 
-    ani tożsamości nadawcy i odbiorcy jednocześnie.
+    Implementacja musi realizować szyfrowanie wiadomości w taki sposób, aby każdy kolejny przekaźnik mógł odszyfrować wyłącznie jedną warstwę, nie poznając przy tym pełnej 
+    trasy ani tożsamości nadawcy i odbiorcy jednocześnie.
 
     \item WF-3. Przekazywanie wiadomości przez przekaźniki.
     Implementacja musi umożliwiać przekazywanie zaszyfrowanej wiadomości kolejno przez wybrane węzły, przy czym każdy węzeł pośredniczący usuwa jedną warstwę szyfrowania i 
@@ -227,8 +228,8 @@ Wnioski [TODO]
     Implementacja musi umożliwiać operowanie przekaźnika w większej sieci, przynajmniej częściowo.
 
     \item WF-7. Konfiguracja i monitorowanie.
-    Implementacja musi udostępniać podstawowe mechanizmy konfiguracji (np. wybór liczby przekaźników, trybu pracy) oraz monitorowania stanu obwodu i podstawowych metryk 
-    wydajnościowych.
+    Implementacja musi udostępniać podstawowe mechanizmy konfiguracji (np. wybór liczby przekaźników, źródła entropii, przekaźników startowego i końcowego) 
+    oraz monitorowania stanu obwodu i podstawowych metryk wydajnościowych.
 
     \end{itemize}
 
@@ -251,7 +252,7 @@ Wnioski [TODO]
     co najmniej równoważne 128-bitowemu poziomowi bezpieczeństwa (np. AES-128-GCM).
 
     WNF-4. Niezawodność i stabilność.
-    System powinien poprawnie obsługiwać sytuacje utraty łączności z przekaźnikiem, przekroczenia czasu oczekiwania na odpowiedź oraz ponownego zestawiania obwodu.
+    System powinien poprawnie obsługiwać sytuacje utraty łączności z przekaźnikiem, przekroczenia czasu oczekiwania na odpowiedź oraz ponownego szukania obwodu.
 
     \section{Metody spełnienia założeń trasowania cebulowego na ESP32}
 
@@ -260,14 +261,14 @@ Wnioski [TODO]
     zestawianie i utrzymywanie obwodów po stronie klienta, odbieranie oraz odszyfrowywanie jednej warstwy i przekazywanie wiadomości po stronie przekaźnika, jak i uczestnictwo
     w ustalaniu obwodów po stronie przekaźnika. Poniżej przedstawiono wybrany kierunek implementacyjny.
 
-    Podstawowym rozwiązaniem jest zaprojektowanie rozwiązania opierającego się o pakiety o stałym rozmiarze. Dobrym formatem jest Sphinx, który jest przystosowany do takiej
-    komunikacji. Możliwe także jest zastosowanie uproszczonego formatu pakietów, gdyby pakiety sphinx okazały się za ciężkie dla mikrokontrolerów.
+    Podstawowym rozwiązaniem jest zaprojektowanie rozwiązania opierającego się o pakiety o stałym rozmiarze. Dobrym formatem jest format podobny do tego używanego w sieci 
+    Tor\cite{tor_spec}, który jest przystosowany do takiej komunikacji. Dobrze byłoby się na nim wzorować.
     Ponieważ ESP32 ma pełnić również rolę przekaźnika, analiza wymagań musi objąć model współbieżności i gospodarkę pamięcią. Przekaźnik musi przechowywać kontekst 
     kryptograficzny dla każdego obsługiwanego obwodu, buforować pakiety oraz zarządzać czasami oczekiwania i ponownym zestawianiem obwodów. W praktyce konieczne jest 
-    odgórne ograniczenie liczby równoczesnych obwodów obsługiwanych przez dany przekaźnik. Takie rozwiązanie idealnie współdziała z licznością mikrokontrolerów, które
-    pozwalają na tworzenie o wiele bardziej rozproszonych obwodów. W takim wypadku należałoby wprowadzić też metody pozwalające na nie trzymanie w pamięci większości listy
-    przekaźników, na przykład przez dynamiczne budowanie obwodów. Należy również zaprojektować mechanizmy odrzucania lub opóźniania nowych obwodów przy wyczerpaniu zasobów,
-    aby uniknąć przeciążeń i aby klient zbudował inny obwód. ESP32 dysponuje sprzętowymi akceleratorami AES, SHA, RSA i ECC, co pozwala ograniczyć narzut 
+    odgórne ograniczenie liczby równoczesnych obwodów obsługiwanych przez dany przekaźnik. Takie rozwiązanie idealnie pasuje do rozproszonej natury mikrokontrolerów, które
+    pozwalają na tworzenie o wiele bardziej zdecentralizowanych obwodów. W takim wypadku należałoby wprowadzić też metodę pozwalającą na przechowywanie listy wybranych
+    przekaźników, na przykład przez niezależne katalogi. Należy również zaprojektować mechanizmy odrzucania lub opóźniania nowych obwodów przy wyczerpaniu zasobów,
+    aby uniknąć przeciążeń wymuszając na kliencie zbudowanie innego obwodu. ESP32 dysponuje sprzętowymi akceleratorami AES, SHA, RSA i ECC, co pozwala ograniczyć narzut 
     obliczeniowy zarówno przy tworzeniu obwodu, jak i przy przetwarzaniu pakietów w roli przekaźnika. Konieczne jest jednak rozplanowanie czasowo zadań tak, aby obsługa roli 
     klienta i przekaźnika nie prowadziła do głodzenia pozostałych zadań ani do przekroczenia dopuszczalnych opóźnień. W praktyce oznacza to podział implementacji na niezależne 
     zadania oraz wykorzystanie mechanizmów FreeRTOS dostępnych w ESP-IDF. Przekaźnik ESP32 może być narażony na podstawowe ataki analizy czasowej i rozmiarowej. Aby się
@@ -280,7 +281,7 @@ Wnioski [TODO]
 
     \begin{itemize}
     
-    \item ESP32 będzie pełniło jednocześnie rolę klienta oraz przekaźnika, co oznacza, że implementacja musi obsługiwać zestawianie obwodów, warstwowe szyfrowanie, 
+    \item ESP32 będzie pełniło jednocześnie rolę klienta oraz przekaźnika, co oznacza, że implementacja musi obsługiwać budowanie obwodów, warstwowe szyfrowanie, 
     przekazywanie wiadomości oraz zarządzanie ograniczoną liczbą równoczesnych obwodów po stronie przekaźnika.
 
     \item Pełna implementacja protokołu Tor w roli przekaźnika na ESP32 nie jest wykonalna ze względu na ograniczenia pamięciowe. Konieczne jest zaprojektowanie 
@@ -412,7 +413,164 @@ Wnioski [TODO]
 
     \chapter{projekt rozwiązania}
 
+    Prototypy przedstawione w poprzednim rozdziale są wystarczające aby przejść do projektu rozwiązania. Na rozwiązanie składają się następujące elementy tworzące bibliotekę
+    umożliwiającą komunikację z pomocą trasowania cebulowego:
+
+    \begin{itemize}
+        \item Format pakietu.
+        \item Źródło listy przekaźników.
+        \item Metoda komunikacji z przekaźnikiem.
+        \item Metoda uwierzytelnienia przekaźnika.
+        \item Metoda szyfrowania wiadomości.
+        \item Metoda budowania obwodu.
+        \item Metoda odszyfrowania warstwy.
+        \item Metoda otrzymania odpowiedzi.
+    \end{itemize}
+
+    Zostaną one omówione w następujących sekcjach.
+
+    \section{Fromat Pakietu}
+
+    U podstawy przesyłania informacji własnym protokołem jest format pakietu. Bez niego, odbiorca nie zrozumie co mu przekazujemy, ani nie będzie wiedział czy otrzymał całość.
+    Jak wspomniałem przy omawianiu wymagań dla implementacji tej techniki, dobrym wzorcem formatu pakietu jest ten używany przez sieć Tor\cite{tor_spec}. Cechuje się on
+    długością pakietu 514 bajtów, w której analogicznie przenaczamy w komórce 5 bajtów na nagłówek jawny (dla przekaźników 4 bajty na ID obwodu, i jeden na komendę, dla 
+    przekaźnika wyjściowego oraz budowania obwodu 4 bajty na adres IPv4 oraz 1 na komendę), a ostatnie 509 na wiadomość. Taki format jest wygodny, ponieważ pozwala 
+    na obsługę wielu połączeń bez znajomości adresów IP kolejnych przeskoków za pomocą ID obwodów. pozostałe 509 bajtów natomiast jest wykorzystywane w różny sposób w
+    zależności od komendy, przy tworzeniu obwodu przenosząc wersję protokołu oraz kod uwierzytelniający wiadomość przy powrocie (MAC), destroy zostawiający pusty oraz 
+    w przypadku przekazywania wiadomość owinięta jest w 12 bajtowy nonce (Number Used Once) oraz 16 bajtowy tag, oraz poprzedzona 2 bajtami na długość. Dla każdej wiadomości
+    liczba bajtów jest dopełniana do 514 niezależnie od wykorzystanych, celem utrudnienia śledzenia pakietów. W przypadku 3 przeskoków zostawia to 409 bajtów na wiadomość,
+    i o 30 mniej z każdym kolejnym wykorzystanym przekaźnikiem ze względu na kolejne owicia wiadomości.
+
+    Protokół obsługuje następujące polecenia: 
+
+    \begin{itemize}
+        \item DESTROY - Zamyka obwód bez odpowiedzi zwrotnej.
+        \item CREATE - Wykorzystywane do tworzenia obwodu, konkretnie do dołączania kolejnego przekaźnika. Przesyła wersję protokołu i klucz.
+        \item CREATED - Zwrotka zawierająca tag do weryfikacji zgodności przesyłanej wiadomości oraz uwierzytelnia się swoim kluczem prywatnym. 
+        \item EXTEND - Przedłużenie obwodu.
+        \item EXTENDED - Zwrotka przedłużenia analogiczna do tworzenia.
+        \item RELAY - Służy do przekazania wiadomości do następnego przekaźnika w obwodzie.
+        \item DATA - Składa się z IPv4 i portu, długości wiadomości i danych. Przekaźnik wychodzący wysyła dzięki temu wiadomość do odbiorcy.
+        \item DATA\_REPLY - Składa się ze statusu, nonce, długości i odpowiedzi.
+    \end{itemize}
+
+    \section{Źródło listy przekaźników}
+
+    Biblioteka wspiera kilka źródeł listy przekaźników. Można podać jej adres katalogu, można umieścić listę w NVS (Non-Volatile Storage) mikrokontrolera
+    albo można na surowo wrzucić JSON. Każde z rozwiązań wspiera stworzenie swojej własnej listy przekaźników, co pomaga z ograniczeniem jednoczesnych 
+    połączeń do jednego przekaźnika. Do obsługi plików JSON wykorzystana jest bibliotek ArduinoJSON\cite{json_spec}. W katalogu rejestrowana jest nazwa, IPv4
+    pozyskane z połączenia, port oraz klucz publiczny X25519. Pomimo że ten algorytm generacji klucza nie wykorzystuje akceleracji sprzętowej, jest kilkukrotnie 
+    szybszy niż te wykorzystujące akcelerację sprzętową (jak P-256)\cite{cryptobench}. Najlepiej byłoby korzystać z certyfikowanych list przekaźników, ale 
+    gdy stosujemy własną chmarę mikrokontrolerów nie ma to dużego znaczenia tak długo jak ma się pewność że dostarczone dane są niezmodyfikowane.
+
+    \section{Metoda komunikacji z przekaźnikiem}
+
+    Po pozyskaniu listy przekaźników następnym krokiem jest zbudowanie obwodu. Po wybraniu przekaźników które chcemy dołączyć do obwodu (na przykład je losując),
+    należy nawiązać z nimi połączenie. Aby to zrobić, wykorzystujemy adres i port z listy przekaźników aby połączyć się z wykorzystaniem TCP. Niestety wiąże się to
+    z narzutem 20 B nagłówka oraz 3-way handshake, ale UDP jest nieakceptowalne ze względu na brak zapewnienia dostarczenia pakietów.
+
+    \section{Metoda uwierzytelnienia przekaźnika}
+
+    Aby nawiązać bezpieczne połączenie, należy najpierw uwierzytelnić przekaźnik. Przekaźnik uwierzytelnia się po dostaniu klucza tymczasowego klienta generując MAC swoim 
+    prywatnym kluczem, co pozwala klientowi zweryfikować jego tożsamość i jednocześnie ustala wspólny sekret używany do późniejszej kryptografii - bez klucza 
+    prywatnego przekaźnik nie ustali poprawnego MAC. Po ustaleniu bezpiecznego połączenia, klient może przesyłać dowolne polecenia przekaźnikom oraz analogicznie
+    komunikować się z następnymi przekaźnikami i odbiorcami. X25519 jest zdefiniowane w dokumencie RFC 7748. Co ważne, X25519 jest wykluczony z zatwierdzenia w SP
+    800-56A, a więc niezgodny z FIPS 140-3. Mimo to, jest standardem w takich protokołach jak TLS 1.3 czy SSH.
+
+    \section{Metoda budowania obwodu}
+
+    Obwód jest budowany iteracyjnie, gdzie każdy kolejny przekaźnik analogicznie się uwierzytelnia i dołącza do obwodu bez wiedzy o wszystkich uczestnikach komunikacji.
+    Metoda ta była opisywana ad nauseum więc nie będę się nad nią rozwodził.
+
+    \section{Metoda szyfrowania wiadomości}
+
+    Gdy już klient zbudował obwód oraz ustalił wspólne sekrety z każdym kolejnym uwierzytelnionym przekaźnikiem (oraz najlepiej klucz z odbiorcą przy szyfrowaniu End-to-End)
+    może zacząć szyfrować wiadomość. Wykorzystuje do tego kolejne wspólne sekrety, na przemian szyfrując wiadomość, dodając nagłówek, szyfrując całość i tak w kółko aż do 
+    zaszyfrowania wszystkich warstw. Ważne aby robić to w kolejności odwrotnej, tak że ostatnim sekretem wykorzystanym do szyfrowania jest ten uzyskany pierwszy. To również
+    było powtarzane ad nauseum. Do szyfrowania wiadomości wykorzystywany jest algorytm AES-256-GCM, który dzięki symetryczności pozwala odszyfrować wiadomość tym samym sekretem.
+    Jednocześnie zapewnia integralność wiadomości. Dzięki AEAD (authenticated encryption with associated data) pozwala pilnować integralności nawet niezaszyfrowanego nagłówka.
+    AES jest zdefiniowany w FIPS 197, a tryb GCM w NIST SP 800-38D. Jest też zgodny z FIPS 140-2 i 140-3 oraz akceptowany w ewaluacjach Common Criteria. 
+
+    \section{Metoda odszyfrowania warstwy}
+
+    Ponieważ AES-256-GCM jest symetryczny, wystarczy że przekaźnik użyje tego samego wcześniej ustalonego wspólnego sekretu do odszyfrowania swojej warstwy. W ten sposób
+    otrzymuje czytelny nagłówek oraz kolejną zaszyfrowaną warstwę, którą przekazuje tam gdzie każe nagłówek. To powtarza się aż do finalnego odbiorcy, który wykorzystuje
+    klucz z szyfrowania End-to-End aby bezpiecznie odszyfrować u siebie wiadomość.
+
+    \section{Metoda otrzymania odpowiedzi}
+
+    Odbiorca może także przesłać odpowiedź zwrotną, tak długo jak odpowiednio dostosuje jej długość . Przekaźniki wtedy zaczną pakować je o jedną warstwę co przeskok,
+    którą z kolei oryginalny klient może odszyfrować ze wszystkich warst po kolei samemu. Po raz kolejny, klucze symetryczne pozwalają tu aby klient i przekaźniki 
+    przeprowadziły ten proces analogicznie. 
+    
     \chapter{implementacja}
+
+    Implementacja rozwiązania jest (a raczej będzie jak będzie gotowa) zamieszczona na githubie autora. Struktura implementacji jest następująca:
+
+    \subsection{Klient (\texttt{OnionClient})}
+
+    Implementacja klienta opiera się na zadaniu FreeRTOS, które jest właścicielem stanu obwodu. Dzięki temu nie stosuje się mutexów: inne zadania komunikują się z 
+    klientem wyłącznie przez kolejkę komunikatów.
+
+    \begin{itemize}
+        \item \textbf{API publiczne}: \texttt{begin()}, \texttt{send()}, \texttt{onResult()}, \texttt{stackFreeMin()}.
+        \item \texttt{begin()} kopiuje katalog relayów, waliduje konfigurację (liczba przeskoków \(3\)--\(8\), poprawność entry/exit, \texttt{buildAttempts} \(>0\)), tworzy 
+        kolejkę i uruchamia zadanie \texttt{onion} przypięte do wybranego rdzenia.
+        \item \texttt{send()} jest nieblokujące: sprawdza limit \texttt{maxPayload(hops)} (dla e2e odejmuje \(48\)~B), wypełnia \texttt{Request}, wysyła go do kolejki i 
+        zwraca numer sekwencji (\(>0\)) albo \(0\) przy błędzie/przepełnieniu.
+        \item \texttt{Request} przechowuje adres, port, dane o rozmiarze \texttt{maxPayload(MIN\_HOPS)=416~B}, znacznik e2e oraz klucz publiczny celu \texttt{destPub}.
+        \item \texttt{run()} odbiera żądania z kolejki, wywołuje \texttt{process()} i przekazuje \texttt{SendResult} do callbacku w kontekście zadania klienta.
+        \item \texttt{buildCircuit()} wybiera ścieżkę przez \texttt{selectPath()} i podejmuje do \texttt{buildAttempts} prób zbudowania obwodu; przy trybie losowym każda 
+        próba może dać nową ścieżkę.
+        \item \texttt{process()} realizuje cykl: sprawdzenie \texttt{networkUp}, ewentualne zniszczenie/zbudowanie obwodu, opcjonalne szyfrowanie e2e (\texttt{sealRequest}), 
+        wysyłkę przez \texttt{Circuit::send()}, opcjonalne odszyfrowanie odpowiedzi (\texttt{openResponse}) i aktualizację \texttt{SendResult}.
+        \item Obwód jest niszczony po każdej wiadomości, chyba że włączono \texttt{reuseCircuit} i wynik wskazuje, że sam obwód działał (\texttt{Delivered}, \texttt{Sent}, 
+        \texttt{ExitFailed}); limit użyć określa \texttt{circuitMaxUses}.
+        \item Konfiguracja obejmuje m.in. liczbę przeskoków, tryb ścieżki, entry/exit, liczbę prób budowy, reuse obwodu, oczekiwanie na odpowiedź z timeoutem, sprawdzanie sieci 
+        oraz parametry zadania FreeRTOS (stos, priorytet, rdzeń, głębokość kolejki).
+        \item Odpowiedź celu w \texttt{SendResult} jest ważna wyłącznie w callbacku; przy e2e wynik zastępuje szyfrogram po pomyślnym uwierzytelnieniu.
+    \end{itemize}
+
+    \subsection{Losowość (\texttt{OnionRandom})}
+
+    Moduł dostarcza losowość dla kluczy, nonce'ów, identyfikatorów obwodów i wyboru ścieżki. Brak źródła entropii powoduje zwrócenie błędu.
+
+    \begin{itemize}
+        \item \texttt{esp\_fill\_random()} jest TRNG tylko przy aktywnym radiu (WiFi/Bluetooth). Przy Ethernet lub wyłączonym WiFi zwraca dane pseudolosowe.
+        \item \textbf{Kolejność źródeł} (\texttt{rngSource()}): (1) własne źródło przez \texttt{setEntropySource()}, (2) aktywne radio \(\rightarrow\) 
+        \texttt{esp\_fill\_random()} (TRNG), (3) \texttt{bootloader\_random\_enable()} na czas odczytu (TRNG z szumu ADC), (4) brak źródła 
+        \(\rightarrow\) \texttt{randomBytes()} zwraca \texttt{false}.
+        \item \textbf{API}: \texttt{randomBytes()}, \texttt{randomBelow()}, \texttt{rngSource()}, \texttt{rngSourceName()}, \texttt{setEntropySource()}, 
+        \texttt{assumeRfActive()}.
+        \item \texttt{randomBelow(bound, out)} używa odrzucania próbek (limit \(=\lfloor 2^{32}/\text{bound}\rfloor\cdot\text{bound}\)), aby rozkład był 
+        równomierny bez obciążenia modulo.
+        \item Fallback bootloaderowy jest nie-wielobieżny - chroniony mutexem FreeRTOS; ADC jest zwalniane po odczycie.
+        \item \texttt{assumeRfActive(true)} pozwala wymusić TRNG, gdy działa tylko Bluetooth (nie wykrywane przez \texttt{esp\_wifi\_get\_mode()}).
+    \end{itemize}
+
+    \subsection{Stałe i struktury protokołu (\texttt{OnionProtocol.h})}
+
+    Nagłówek definiuje cały format protokołu: komórki, rozmiary kryptograficzne, schemat warstw, polecenia, katalog przekaźników oraz statusy wysyłki.
+
+    \begin{itemize}
+        \item \textbf{Wersja}: \texttt{PROTO\_VERSION = 3} trafia do każdego \texttt{CREATE}/\texttt{EXTEND} i wchodzi do HKDF, więc relay o innej wersji odrzuca obwód 
+        (odsyła \texttt{DESTROY} z własną wersją), a klucze różnych wersji się nie zgadzają.
+        \item \textbf{Komórka}: stały rozmiar \texttt{CELL\_SIZE = 514~B} (nagłówek 5~B + payload 509~B), na wzór Tor. Struktura \texttt{Cell} jest \texttt{packed} i 
+        podlega \texttt{static\_assert}.
+        \item \textbf{Polecenia łącza}: \texttt{CMD\_CREATE}, \texttt{CMD\_CREATED}, \texttt{CMD\_RELAY}, \texttt{CMD\_DESTROY}. \texttt{DESTROY} jako odpowiedź na 
+        \texttt{CREATE} niesie w \texttt{payload[0]} wersję relaya.
+        \item \textbf{Rozmiary kryptograficzne}: \texttt{NONCE\_SIZE=12}, \texttt{TAG\_SIZE=16}, \texttt{LAYER\_OVERHEAD=28} (nonce+tag), \texttt{KEY\_SIZE=32}, 
+        \texttt{PUB\_SIZE=32}, \texttt{HMAC\_SIZE=32}; \texttt{DIR\_FORWARD}/\texttt{DIR\_BACKWARD} jako AAD warstwy.
+        \item \textbf{Schemat warstw}: \texttt{layerSize(d) = 509 - 28*d}, \texttt{terminalSize(hops) = 509 - 28*hops}. Każdy przeskok dodaje swój nonce i tag.
+        \item \textbf{Polecenia terminalne}: \texttt{T\_EXTEND}, \texttt{T\_EXTENDED}, \texttt{T\_DATA}, \texttt{T\_DATA\_REPLY}; nagłówki \texttt{DATA\_HEADER\_SIZE=9}, 
+        \texttt{REPLY\_HEADER\_SIZE=16}, \texttt{EXTEND\_BODY\_SIZE=40}; statusy \texttt{STATUS\_OK}/\texttt{STATUS\_FAILED}.
+        \item \textbf{Limity}: \texttt{MIN\_HOPS=3}, \texttt{MAX\_HOPS=8}; \texttt{maxPayload(hops)} i \texttt{maxResponse(hops)} wyliczane z \texttt{terminalSize}. 
+        Przykładowo: 3 przeskoki to 416~B / 409~B, 8 przeskoków to 276~B / 269~B; e2e zabiera dodatkowo 48~B (żądanie) i 16~B (odpowiedź).
+        \item \textbf{Katalog}: \texttt{Relay} = \texttt{ip}, \texttt{port}, \texttt{x25519Pub[32]} (statyczny klucz tożsamości), \texttt{name[16]}; konwersje 
+        \texttt{ipToU32}/\texttt{u32ToIp}.
+        \item \textbf{Wynik wysyłki}: \texttt{SendStatus} = \texttt{Delivered}, \texttt{Sent}, \texttt{ExitFailed}, \texttt{NoCircuit}, \texttt{NoAck}, \texttt{Mismatch}, 
+        \texttt{Failed}; \texttt{statusName()} do logów.
+    \end{itemize}
 
     \chapter{testy}
     

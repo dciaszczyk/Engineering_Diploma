@@ -13,7 +13,18 @@
 \contentsline {section}{\numberline {3.2}Prototyp przesyłania wiadomości z wykorzystaniem przekaźników}{19}{section.3.2}%
 \contentsline {section}{\numberline {3.3}Prototyp przesyłania wiadomości z wykorzystaniem warstwowego szyfrowania}{20}{section.3.3}%
 \contentsline {chapter}{\numberline {4}projekt rozwiązania}{21}{chapter.4}%
-\contentsline {chapter}{\numberline {5}implementacja}{23}{chapter.5}%
-\contentsline {chapter}{\numberline {6}testy}{25}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Podsumowanie}{27}{chapter.7}%
-\contentsline {chapter}{Bibliografia}{29}{section*.9}%
+\contentsline {section}{\numberline {4.1}Fromat Pakietu}{21}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Źródło listy przekaźników}{22}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Metoda komunikacji z przekaźnikiem}{22}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Metoda uwierzytelnienia przekaźnika}{23}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Metoda budowania obwodu}{23}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Metoda szyfrowania wiadomości}{23}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Metoda odszyfrowania warstwy}{23}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Metoda otrzymania odpowiedzi}{24}{section.4.8}%
+\contentsline {chapter}{\numberline {5}implementacja}{25}{chapter.5}%
+\contentsline {subsection}{\numberline {5.0.1}Klient (\texttt {OnionClient})}{25}{subsection.5.0.1}%
+\contentsline {subsection}{\numberline {5.0.2}Losowość (\texttt {OnionRandom})}{26}{subsection.5.0.2}%
+\contentsline {subsection}{\numberline {5.0.3}Stałe i struktury protokołu (\texttt {OnionProtocol.h})}{26}{subsection.5.0.3}%
+\contentsline {chapter}{\numberline {6}testy}{29}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Podsumowanie}{31}{chapter.7}%
+\contentsline {chapter}{Bibliografia}{33}{section*.9}%

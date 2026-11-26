@@ -11,8 +11,8 @@ inline void     putLE32(uint8_t* p, uint32_t v) { p[0] = v; p[1] = v >> 8; p[2] 
 inline uint16_t getLE16(const uint8_t* p)       { return (uint16_t)(p[0] | (p[1] << 8)); }
 inline uint32_t getLE32(const uint8_t* p)       { return p[0] | (p[1] << 8) | (p[2] << 16) | ((uint32_t)p[3] << 24); }
 
-// Składa komórkę; resztę payloadu wypełnia losowymi bajtami (przy braku entropii zerami,
-// nigdy śmieciami ze stosu).
+// Składa komórkę; resztę payloadu wypełnia losowymi bajtami (przy braku entropii zerami)
+
 inline void makeCell(Cell& cell, uint32_t id, uint8_t cmd, const uint8_t* payload, size_t len) {
     cell.circuitId = id;
     cell.command   = cmd;

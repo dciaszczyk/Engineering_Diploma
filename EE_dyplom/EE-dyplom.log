@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.10.25)  6 NOV 2026 18:09
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.10.25)  26 NOV 2026 04:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1384,4 +1384,378 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \abovetopsep=\dimen353
 \cmidrulesep=\dimen354
 \cmidrulekern=\dimen355
-\default
+\defaultaddspace=\dimen356
+\@cmidla=\count560
+\@cmidlb=\count561
+\@aboverulesep=\dimen357
+\@belowrulesep=\dimen358
+\@thisruleclass=\count562
+\@lastruleclass=\count563
+\@thisrulewidth=\dimen359
+)
+
+Package fontspec Info: 
+(fontspec)             Font family 'LatinModernSans(1)' created for font
+(fontspec)             'Latin Modern Sans' with options
+(fontspec)             [Ligatures=TeX,Language=Polish].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.: <->"Latin Modern
+(fontspec)             Sans/OT:script=latn;language=PLK;mapping=tex-text;"
+(fontspec)             - 'bold' (b/n) with NFSS spec.: <->"Latin Modern
+(fontspec)             Sans/B/OT:script=latn;language=PLK;mapping=tex-text;"
+(fontspec)             - 'italic' (m/it) with NFSS spec.: <->"Latin Modern
+(fontspec)             Sans/I/OT:script=latn;language=PLK;mapping=tex-text;"
+(fontspec)             - 'bold italic' (b/it) with NFSS spec.: <->"Latin
+(fontspec)             Modern
+(fontspec)             Sans/BI/OT:script=latn;language=PLK;mapping=tex-text;"
+
+ (./EE-dyplom.aux)
+\openout1 = `EE-dyplom.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: xetex
+*geometry* verbose mode - [ preamble ] result:
+* driver: xetex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: includehead includefoot twoside 
+* h-part:(L,W,R)=(85.35826pt, 455.24411pt, 56.9055pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78308pt, 71.13188pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=455.24411pt
+* \textheight=643.44633pt
+* \oddsidemargin=13.08827pt
+* \evensidemargin=-15.36449pt
+* \topmargin=-1.1381pt
+* \headheight=16.0pt
+* \headsep=19.8738pt
+* \topskip=11.0pt
+* \footskip=27.46295pt
+* \marginparwidth=106.0pt
+* \marginparsep=7.0pt
+* \columnsep=10.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+Package biblatex Info: Trying to load language 'american'...
+Package biblatex Info: ... file 'american.lbx' found.
+(c:/texlive/2026/texmf-dist/tex/latex/biblatex/lbx/american.lbx
+File: american.lbx 2026/09/24 v3.22a biblatex localization (PK/MW)
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (c:/texlive/2026/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2026/09/24 v3.22a biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (c:/texlive/2026/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2026/09/24 v3.22a biblatex localization (PK/MW)
+))
+Package biblatex Info: Trying to load language 'latin'...
+Package biblatex Info: ... file 'latin.lbx' not found.
+
+
+Package biblatex Warning: Language 'latin' not supported.
+(biblatex)                Using dummy definitions on input line 85.
+
+Package biblatex Info: Trying to load language 'polish'...
+Package biblatex Info: ... file 'polish.lbx' found.
+(c:/texlive/2026/texmf-dist/tex/latex/biblatex/lbx/polish.lbx
+File: polish.lbx 2026/09/24 v3.22a biblatex localization (PK/MW)
+)
+Package biblatex Info: XeTeX detected.
+(biblatex)             Assuming input encoding 'utf8'.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout7 = `EE-dyplom.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'EE-dyplom.bbl' found.
+ (./EE-dyplom.bbl)
+Package biblatex Info: Reference section=0 on input line 85.
+Package biblatex Info: Reference segment=0 on input line 85.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: End \AtBeginDocument code.
+Package hyperref Info: Link coloring ON on input line 85.
+ (./EE-dyplom.out) (./EE-dyplom.out)
+\@outlinefile=\write9
+\openout9 = `EE-dyplom.out'.
+
+\c@lstlisting=\count564
+File: gfx/HeadeePL.png Graphic file (type bmp)
+<gfx/HeadeePL.png>
+File: gfx/inzhead.png Graphic file (type bmp)
+<gfx/inzhead.png>
+ [1
+
+\openout3 = `EE-dyplom.ist'.
+
+] [2
+
+] [3] [4
+
+] [5
+
+] [6
+
+] (./EE-dyplom.toc
+LaTeX Font Info:    Trying to load font information for U+msa on input line 4.
+ (c:/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 4.
+ (c:/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for U+esint on input line 4.
+ (c:/texlive/2026/texmf-dist/tex/latex/esint/uesint.fd
+File: uesint.fd 
+)
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/n' will be
+(Font)              scaled to size 8.0pt on input line 4.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/n' will be
+(Font)              scaled to size 6.0pt on input line 4.
+
+
+LaTeX Font Warning: Font shape `TU/LatinModernMath(1)/m/it' undefined
+(Font)              using `TU/LatinModernMath(1)/m/n' instead on input line 4.
+
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/it' will be
+(Font)              scaled to size 8.0pt on input line 4.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/it' will be
+(Font)              scaled to size 6.0pt on input line 4.
+[7
+
+])
+\tf@toc=\write10
+\openout10 = `EE-dyplom.toc'.
+
+ [8]
+Rozdział 1.
+File: rysunki/trasowanie.png Graphic file (type bmp)
+<rysunki/trasowanie.png>
+[9
+
+
+] [10] [11] [12
+
+]
+Rozdział 2.
+[13] [14] [15] [16]
+Rozdział 3.
+File: rysunki/tracert.png Graphic file (type bmp)
+<rysunki/tracert.png>
+[17
+
+]
+File: rysunki/http_schema.png Graphic file (type bmp)
+<rysunki/http_schema.png>
+File: rysunki/direct_http.png Graphic file (type bmp)
+<rysunki/direct_http.png>
+ [18]
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/n' will be
+(Font)              scaled to size 10.0pt on input line 349.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/n' will be
+(Font)              scaled to size 7.0pt on input line 349.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/n' will be
+(Font)              scaled to size 5.0pt on input line 349.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/it' will be
+(Font)              scaled to size 10.0pt on input line 349.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/it' will be
+(Font)              scaled to size 7.0pt on input line 349.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/it' will be
+(Font)              scaled to size 5.0pt on input line 349.
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
+[]|\TU/LatinModernMono(0)/m/n/10 8000 > 61924 [PSH, ACK] Seq=1
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
+\TU/LatinModernMono(0)/m/n/10 Ack=151 Win=64470 Len=125 [TCP
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 355--356
+[]|\TU/LatinModernMono(0)/m/n/10 61924 > 8000 [ACK] Seq=151
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 356--357
+[]|\TU/LatinModernMono(0)/m/n/10 HTTP/1.1 200 OK, JSON
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 357--358
+[]|\TU/LatinModernMono(0)/m/n/10 61924 > 8000 [ACK] Seq=151
+ []
+
+
+Overfull \hbox (67.46288pt too wide) in paragraph at lines 349--360
+ [][] 
+ []
+
+File: rysunki/unencrypted_dump1.png Graphic file (type bmp)
+<rysunki/unencrypted_dump1.png>
+File: rysunki/unencrypted_dump2.png Graphic file (type bmp)
+<rysunki/unencrypted_dump2.png>
+File: rysunki/relay2_cipher.png Graphic file (type bmp)
+<rysunki/relay2_cipher.png>
+File: rysunki/final_cipher.png Graphic file (type bmp)
+<rysunki/final_cipher.png>
+[19] [20]
+Rozdział 4.
+LaTeX Font Info:    Font shape `TU/LatinModernMath(1)/m/it' will be
+(Font)              scaled to size 10.95pt on input line 420.
+[21
+
+] [22] [23] [24]
+Rozdział 5.
+
+LaTeX Font Warning: Font shape `TU/LatinModernMono(0)/b/n' undefined
+(Font)              using `TU/LatinModernMono(0)/m/n' instead on input line 510.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 510.
+
+[25
+
+]
+Overfull \hbox (24.31595pt too wide) in paragraph at lines 543--545
+[]\TU/LatinModernSans(1)/b/n/10.95 API\TU/LatinModernSans(1)/m/n/10.95 : \TU/LatinModernMono(0)/m/n/10.95 randomBytes()\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 randomBelow()\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 rngSource()\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 rngSourceName()\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 setEntropySource()\TU/LatinModernSans(1)/m/n/10.95 ,
+ []
+
+
+Overfull \hbox (5.57681pt too wide) in paragraph at lines 564--565
+[]\TU/LatinModernSans(1)/b/n/10.95 Schemat warstw\TU/LatinModernSans(1)/m/n/10.95 : \TU/LatinModernMono(0)/m/n/10.95 layerSize(d) = 509 - 28*d\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 terminalSize(hops) = 509 - 28*hops\TU/LatinModernSans(1)/m/n/10.95 .
+ []
+
+
+Underfull \hbox (badness 7631) in paragraph at lines 565--567
+[]\TU/LatinModernSans(1)/b/n/10.95 Polecenia terminalne\TU/LatinModernSans(1)/m/n/10.95 : \TU/LatinModernMono(0)/m/n/10.95 T_EXTEND\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 T_EXTENDED\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 T_DATA\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 T_DATA_REPLY\TU/LatinModernSans(1)/m/n/10.95 ; nagłów-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 565--567
+\TU/LatinModernSans(1)/m/n/10.95 ki \TU/LatinModernMono(0)/m/n/10.95 DATA_HEADER_SIZE=9\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 REPLY_HEADER_SIZE=16\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 EXTEND_BODY_SIZE=40\TU/LatinModernSans(1)/m/n/10.95 ; statusy
+ []
+
+[26]
+Underfull \hbox (badness 1168) in paragraph at lines 571--573
+[]\TU/LatinModernSans(1)/b/n/10.95 Wynik wysyłki\TU/LatinModernSans(1)/m/n/10.95 : \TU/LatinModernMono(0)/m/n/10.95 SendStatus \TU/LatinModernSans(1)/m/n/10.95 = \TU/LatinModernMono(0)/m/n/10.95 Delivered\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 Sent\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 ExitFailed\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 NoCircuit\TU/LatinModernSans(1)/m/n/10.95 , \TU/LatinModernMono(0)/m/n/10.95 NoAck\TU/LatinModernSans(1)/m/n/10.95 ,
+ []
+
+[27] [28
+
+]
+Rozdział 6.
+[29] [30
+
+]
+Rozdział 7.
+[31] [32
+
+]
+Underfull \hbox (badness 1275) in paragraph at lines 584--584
+[]\TU/LatinModernSans(1)/m/n/10.95 Bianes, G., „  How many devices are connected to the IoT?”, \TU/LatinModernSans(1)/m/it/10.95 SOAX\TU/LatinModernSans(1)/m/n/10.95 , sierpień 2025,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 584--584
+[]\TU/LatinModernSans(1)/m/n/10.95 Cisco, \TU/LatinModernSans(1)/m/it/10.95 Cisco Visual Networking Index: Forecast and Trends, 2017–2022\TU/LatinModernSans(1)/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 584--584
+[]\TU/LatinModernSans(1)/m/it/10.95 Crypto Benchmark on ESP32-- S3 MCU\TU/LatinModernSans(1)/m/n/10.95 , [][]<https://www.oryx-- embed-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 584--584
+[]\TU/LatinModernSans(1)/m/it/10.95 CVE-- 2024-- 32384: Kerlink Gateway Information Disclosure\TU/LatinModernSans(1)/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 584--584
+[]\TU/LatinModernSans(1)/m/it/10.95 ESP32-- S3-- WROOM-- 1 ESP32-- S3-- WROOM-- 1U Datasheet Version 1.8\TU/LatinModernSans(1)/m/n/10.95 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 584--584
+[][]\TU/LatinModernSans(1)/m/n/10.95 <https://documentation.espressif.com/esp32-- s3-- wroom-- 1_wroom-- 1u_datasheet_en.html>[][],
+ []
+
+[33
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 584--584
+[]\TU/LatinModernSans(1)/m/it/10.95 Tor Specifications\TU/LatinModernSans(1)/m/n/10.95 , commit SHA = 5ae6ee90c2753efb90d277aaa28bca59aaba0250,
+ []
+
+
+Package glossaries Warning: No \printglossary or \printglossaries found. 
+(Remove \makeglossaries if you don't want any glossaries.) 
+This document will not have a glossary.
+
+[34] (./EE-dyplom.aux)
+ ***********
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-09-09>
+ ***********
+
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+Package rerunfilecheck Info: File `EE-dyplom.out' has not changed.
+(rerunfilecheck)             Checksum: CBD82BEE47F3E771C0C8923FCC43CFCF;5708.
+Package logreq Info: Writing requests to 'EE-dyplom.run.xml'.
+\openout1 = `EE-dyplom.run.xml'.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 47605 strings out of 467695
+ 987187 string characters out of 5423998
+ 2160981 words of memory out of 5000000
+ 76022 multiletter control sequences out of 15000+600000
+ 636744 words of font info for 145 fonts, out of 8000000 for 9000
+ 1348 hyphenation exceptions out of 8191
+ 122i,12n,131p,2562b,5550s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on EE-dyplom.pdf (34 pages).

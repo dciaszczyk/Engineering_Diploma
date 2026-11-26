@@ -52,6 +52,30 @@
       \field{title}{How many devices are connected to the IoT?}
       \field{year}{2025}
     \endentry
+    \entry{json_spec}{manual}{}{}
+      \name{author}{1}{}{%
+        {{hash=ca0418f0dc334d743a5a6f847b734863}{%
+           family={Blanchon},
+           familyi={B\bibinitperiod},
+           given={Benoît},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{fullhash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{fullhashraw}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{bibnamehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authorbibnamehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authornamehash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authorfullhash}{ca0418f0dc334d743a5a6f847b734863}
+      \strng{authorfullhashraw}{ca0418f0dc334d743a5a6f847b734863}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{Version 7}
+      \field{note}{\href{https://arduinojson.org/v7/api/}{<https://arduinojson.org/v7/api/>}}
+      \field{title}{ArduinoJson API Reference}
+    \endentry
     \entry{prezentacja_cisco}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=7b1d1185b835814de783483f686e9825}{%
@@ -94,6 +118,13 @@
       \field{labeltitlesource}{title}
       \field{howpublished}{\href{https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/}{<https://www.cloudflare.com/en-gb/learning/ssl/why-is-http-not-secure/>}}
       \field{title}{HTTP vs. HTTPS: What are the differences?}
+    \endentry
+    \entry{cryptobench}{misc}{}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\href{https://www.oryx-embedded.com/benchmark/espressif/crypto-esp32-s3.html}{<https://www.oryx-embedded.com/benchmark/espressif/crypto-esp32-s3.html>}}
+      \field{title}{Crypto Benchmark on ESP32-S3 MCU}
     \endentry
     \entry{vuln_disclosure}{misc}{}{}
       \field{sortinit}{C}
